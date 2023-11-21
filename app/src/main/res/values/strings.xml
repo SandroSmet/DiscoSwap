@@ -3,4 +3,14 @@
     <string name="title_messages">Messages</string>
     <string name="title_orders">Orders</string>
     <string name="title_inventory">Inventory</string>
+    <string name="title_messages_all">All</string>
+    <string name="title_messages_order">Order</string>
+    <string name="title_messages_user">User</string>
+    <string name="title_messages_wantlist">Wantlist</string>
+    <string name="title_messages_other">Other</string>
+    <string name="title_orders_all">All</string>
+    <string name="title_orders_unpaid">Unpaid</string>
+    <string name="title_orders_paid">Paid</string>
+    <string name="title_orders_sent">Sent</string>
+    <string name="title_orders_other">Other</string>
 </resources>

@@ -18,9 +18,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.discoswap.R
-import com.example.discoswap.ui.messages.MessageOverviewScreen
+import com.example.discoswap.ui.messages.MessageOverview
 import com.example.discoswap.ui.navigation.BottomNavigationBar
 import com.example.discoswap.ui.navigation.NavigationMenuItem
+import com.example.discoswap.ui.orders.OrderOverview
 
 @Composable
 fun DiscoSwapNavGraph(
@@ -64,14 +65,14 @@ fun DiscoSwapNavGraph(
     ) {
         composable(DiscoSwapDestinations.MESSAGES_ROUTE) {
             MenuScaffold(currentRoute = currentRoute, menuItems) {
-                MessageOverviewScreen(onViewDetailClicked = { message -> navActions.navigateToMessageDetail(message.id) })
+                MessageOverview(onViewDetailClicked = { message -> navActions.navigateToMessageDetail(message.id) })
             }
         }
-//        composable(AdminDestinations.ORDERS_ROUTE) {
-//            MenuScaffold(currentRoute = currentRoute, menuItems) {
-//                OrdersOverview()
-//            }
-//        }
+        composable(DiscoSwapDestinations.ORDERS_ROUTE) {
+            MenuScaffold(currentRoute = currentRoute, menuItems) {
+                OrderOverview(onViewDetailClicked = { order -> navActions.navigateToOrderDetail(order.id) })
+            }
+        }
 //        composable(AdminDestinations.SUPPLEMENTS_ROUTE) {
 //            MenuScaffold(currentRoute = currentRoute, menuItems) {
 //                SupplementsOverview()

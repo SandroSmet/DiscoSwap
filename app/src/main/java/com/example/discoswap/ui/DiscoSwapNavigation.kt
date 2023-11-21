@@ -76,11 +76,11 @@ class DiscoSwapNavigationActions(private val navController: NavHostController) {
         }
     }
 
-    fun navigateToMessageDetail(messageId: Int) {
+    fun navigateToMessageDetail(messageId: String) {
         navController.navigate("$MESSAGE_DETAIL_SCREEN/$messageId")
     }
 
-    fun navigateToOrderDetail(orderId: Int) {
+    fun navigateToOrderDetail(orderId: String) {
         navController.navigate("$ORDER_DETAIL_SCREEN/$orderId")
     }
 
