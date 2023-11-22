@@ -1,5 +1,6 @@
 package com.example.discoswap.ui.messages
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -17,32 +18,42 @@ fun MessageOverview(
     onViewDetailClicked: (Message) -> Unit,
 ) {
     val messageOverviewState by messageOverviewViewModel.uiState.collectAsState()
-    val items = messageOverviewState.currentMessageList
-
-    TabView(
-        Tab(R.string.title_messages_all) {
-            Messages(
-                items,
-                onViewDetailClicked = onViewDetailClicked,
+//    var items = messageOverviewState.currentMessageList
+    when (val messageApiState = messageOverviewViewModel.messageApiState) {
+        is MessageApiState.Loading -> {
+            Text("Loading messages from api...")
+        }
+        is MessageApiState.Error -> {
+            Text("Error loading messages from api.")
+        }
+        is MessageApiState.Success -> {
+            val items = messageApiState.messages
+            TabView(
+                Tab(R.string.title_messages_all) {
+                    Messages(
+                        items,
+                        onViewDetailClicked = onViewDetailClicked,
+                    )
+                },
+                Tab(R.string.title_messages_order) {
+                    Messages(
+                        items.filter { it.type == Type.Order },
+                        onViewDetailClicked = onViewDetailClicked,
+                    )
+                },
+                Tab(R.string.title_messages_user) {
+                    Messages(
+                        items.filter { it.type == Type.User },
+                        onViewDetailClicked = onViewDetailClicked,
+                    )
+                },
+                Tab(R.string.title_messages_other) {
+                    Messages(
+                        items.filter { it.type == Type.Other },
+                        onViewDetailClicked = onViewDetailClicked,
+                    )
+                },
             )
-        },
-        Tab(R.string.title_messages_order) {
-            Messages(
-                items.filter { it.type == Type.Order },
-                onViewDetailClicked = onViewDetailClicked,
-            )
-        },
-        Tab(R.string.title_messages_user) {
-            Messages(
-                items.filter { it.type == Type.User },
-                onViewDetailClicked = onViewDetailClicked,
-            )
-        },
-        Tab(R.string.title_messages_other) {
-            Messages(
-                items.filter { it.type == Type.Other },
-                onViewDetailClicked = onViewDetailClicked,
-            )
-        },
-    )
+        }
+    }
 }
