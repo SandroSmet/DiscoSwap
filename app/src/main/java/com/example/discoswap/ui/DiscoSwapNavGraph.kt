@@ -19,6 +19,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.discoswap.R
 import com.example.discoswap.ui.messages.MessageOverview
+import com.example.discoswap.ui.messages.messagedetail.MessageDetailScreen
 import com.example.discoswap.ui.navigation.BottomNavigationBar
 import com.example.discoswap.ui.navigation.NavigationMenuItem
 import com.example.discoswap.ui.orders.OrderOverview
@@ -83,13 +84,13 @@ fun DiscoSwapNavGraph(
 //                CalendarOverview()
 //            }
 //        }
-//        composable(
-//            AdminDestinations.QUOTATION_DETAIL_ROUTE,
-//        ) {
-//            QuotationDetailScreen(
-//                onBack = { navController.popBackStack() },
-//            )
-//        }
+        composable(
+            DiscoSwapDestinations.MESSAGE_DETAIL_ROUTE,
+        ) {
+            MessageDetailScreen(
+                onBack = { navController.popBackStack() },
+            )
+        }
 //        composable(
 //            AdminDestinations.QUOTATION_EDIT_ROUTE,
 //        ) {

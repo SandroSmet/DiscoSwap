@@ -13,4 +13,5 @@
     <string name="title_orders_paid">Paid</string>
     <string name="title_orders_sent">Sent</string>
     <string name="title_orders_other">Other</string>
+    <string name="message_username">From:</string>
 </resources>

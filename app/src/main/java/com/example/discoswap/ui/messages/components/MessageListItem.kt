@@ -49,7 +49,7 @@ fun MessageListItem(
             },
 
             supportingText = {
-                Text(message.text, Modifier.padding(3.dp))
+                Text(message.subject, Modifier.padding(3.dp))
             },
         )
         Divider()

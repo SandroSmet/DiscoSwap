@@ -11,6 +11,7 @@ import com.example.discoswap.network.asDomainObjects
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MessageOverviewViewModel : ViewModel() {
@@ -27,12 +28,13 @@ class MessageOverviewViewModel : ViewModel() {
 
     private fun getApiMessages() {
         viewModelScope.launch {
-            try {
+            messageApiState = try {
                 val result = messageService.getMessages()
-                messageApiState = MessageApiState.Success(result.items.asDomainObjects())
-                println("The messages: ${result.items}")
+                _uiState.update { it.copy(currentMessageList = result.items.asDomainObjects()) }
+                MessageApiState.Success(result.items.asDomainObjects())
             } catch (e: Exception) {
-                messageApiState = MessageApiState.Error
+                e.printStackTrace()
+                MessageApiState.Error
             }
         }
     }
