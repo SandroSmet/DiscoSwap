@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,8 +19,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -29,9 +34,6 @@ import com.example.discoswap.ui.messages.MessageDetailApiState
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MessageDetailScreen(onBack: () -> Unit, viewModel: MessageDetailViewModel = hiltViewModel()) {
-    val context = LocalContext.current
-    val messageDetailState by viewModel.uiState.collectAsState()
-    val message = messageDetailState.message
 
     when (val messageDetailApiState = viewModel.messageDetailApiState) {
         is MessageDetailApiState.Loading -> {
@@ -43,6 +45,7 @@ fun MessageDetailScreen(onBack: () -> Unit, viewModel: MessageDetailViewModel = 
         }
 
         is MessageDetailApiState.Success -> {
+            val messageText = messageDetailApiState.message.text?.let { transformHTML(it) }
             Scaffold(
                 modifier = Modifier.fillMaxSize(),
                 topBar = {
@@ -64,12 +67,30 @@ fun MessageDetailScreen(onBack: () -> Unit, viewModel: MessageDetailViewModel = 
                         .padding(innerPadding)
                         .fillMaxWidth(),
                 ) {
-                    messageDetailApiState.message.text?.let { HtmlText(it) }
+                    Text(text = messageDetailApiState.message.subject, fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
+                    Text(text = messageText!!, fontWeight = FontWeight.Medium, fontSize = 14.sp)
                 }
             }
         }
     }
 
+}
+
+fun transformHTML(html: String): String {
+    var transformedText: String = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT).toString()
+
+    if(transformedText.contains("￼ ￼ ￼ ￼ "))
+        transformedText = transformedText.split("￼ ￼ ￼ ￼ ")[1]
+    if(transformedText.contains("; } }"))
+        transformedText = transformedText.split("; } }")[1]
+    if(transformedText.contains("￼"))
+        transformedText = transformedText.replace(Regex("￼"), "")
+    if(transformedText.contains("## Reply above this line ##"))
+        transformedText = transformedText.split("## Reply above this line ##")[1]
+    if(transformedText.contains("You can view details on this order"))
+        transformedText = transformedText.split("You can view details on this order")[0]
+
+    return transformedText
 }
 
 @Composable
@@ -87,9 +108,12 @@ fun HtmlText(html: String, modifier: Modifier = Modifier) {
                 it.text = it.text.split("￼ ￼ ￼ ￼ ")[1]
             if(it.text.contains("; } }"))
                 it.text = it.text.split("; } }")[1]
-
             if(it.text.contains("￼"))
                 it.text = it.text.replace(Regex("￼"), "")
+            if(it.text.contains("## Reply above this line ##"))
+                it.text = it.text.split("## Reply above this line ##")[1]
+            if(it.text.contains("You can view details on this order"))
+                it.text = it.text.split("You can view details on this order")[0]
         }
     )
 }
