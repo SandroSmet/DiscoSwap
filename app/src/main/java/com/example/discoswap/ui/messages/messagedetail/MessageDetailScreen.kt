@@ -28,20 +28,24 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.discoswap.R
 import com.example.discoswap.ui.messages.MessageDetailApiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MessageDetailScreen(onBack: () -> Unit, viewModel: MessageDetailViewModel = hiltViewModel()) {
+fun MessageDetailScreen(
+    onBack: () -> Unit,
+    messageDetailViewModel: MessageDetailViewModel = hiltViewModel()
+) {
 
-    when (val messageDetailApiState = viewModel.messageDetailApiState) {
+    when (val messageDetailApiState = messageDetailViewModel.messageDetailApiState) {
         is MessageDetailApiState.Loading -> {
-            Text("Loading messages from api...")
+            Text("Loading message details from api...")
         }
 
         is MessageDetailApiState.Error -> {
-            Text("Error loading messages from api.")
+            Text("Error loading message details from api.")
         }
 
         is MessageDetailApiState.Success -> {

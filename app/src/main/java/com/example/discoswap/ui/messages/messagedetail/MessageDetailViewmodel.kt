@@ -5,15 +5,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.discoswap.DiscoSwapApplication
 import com.example.discoswap.data.MessageSampler
+import com.example.discoswap.data.MessagesRepository
 import com.example.discoswap.model.messages.Message
-import com.example.discoswap.network.MessageApi
-import com.example.discoswap.network.asDomainObject
-import com.example.discoswap.network.asDomainObjects
 import com.example.discoswap.ui.DiscoSwapDestinationsArgs
-import com.example.discoswap.ui.messages.MessageApiState
 import com.example.discoswap.ui.messages.MessageDetailApiState
+import com.example.discoswap.ui.messages.messageoverview.MessageOverviewViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,6 +26,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MessageDetailViewModel @Inject constructor(
+    private val messagesRepository: MessagesRepository,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val messageIdAsString: String = savedStateHandle[DiscoSwapDestinationsArgs.MESSAGE_ID_ARG]!!
@@ -38,15 +41,15 @@ class MessageDetailViewModel @Inject constructor(
     val uiState: StateFlow<MessageDetailState> = _uiState.asStateFlow()
 
     init {
-        getApiMessageDetail()
+        loadMessage(messageIdAsString)
     }
 
-    private fun getApiMessageDetail() {
+    private fun loadMessage(id: String) {
         viewModelScope.launch {
             messageDetailApiState = try {
-                val result = MessageApi.messageService.getMessageDetails(messageIdAsString)
-                _uiState.update { it.copy(message = result.asDomainObject()) }
-                MessageDetailApiState.Success(result.asDomainObject())
+                val message = messagesRepository.getMessageDetails(id)
+                _uiState.update { it.copy(message = message) }
+                MessageDetailApiState.Success(message)
             } catch (e: Exception) {
                 MessageDetailApiState.Error
             }

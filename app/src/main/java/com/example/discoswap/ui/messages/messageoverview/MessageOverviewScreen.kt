@@ -1,20 +1,22 @@
-package com.example.discoswap.ui.messages
+package com.example.discoswap.ui.messages.messageoverview
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.discoswap.R
 import com.example.discoswap.model.messages.Message
 import com.example.discoswap.model.messages.Type
 import com.example.discoswap.ui.common.Tab
 import com.example.discoswap.ui.common.TabView
+import com.example.discoswap.ui.messages.MessageApiState
 import com.example.discoswap.ui.messages.components.Messages
 
 @Composable
 fun MessageOverview(
-    messageOverviewViewModel: MessageOverviewViewModel = viewModel(),
+    messageOverviewViewModel: MessageOverviewViewModel = hiltViewModel(),
     onViewDetailClicked: (Message) -> Unit,
 ) {
     val messageOverviewState by messageOverviewViewModel.uiState.collectAsState()

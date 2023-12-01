@@ -1,4 +1,4 @@
-package com.example.discoswap.ui.messages
+package com.example.discoswap.ui.messages.messageoverview
 
 import com.example.discoswap.model.messages.Message
 

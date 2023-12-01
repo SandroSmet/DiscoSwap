@@ -18,7 +18,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.discoswap.R
-import com.example.discoswap.ui.messages.MessageOverview
+import com.example.discoswap.ui.messages.messageoverview.MessageOverview
 import com.example.discoswap.ui.messages.messagedetail.MessageDetailScreen
 import com.example.discoswap.ui.navigation.BottomNavigationBar
 import com.example.discoswap.ui.navigation.NavigationMenuItem
