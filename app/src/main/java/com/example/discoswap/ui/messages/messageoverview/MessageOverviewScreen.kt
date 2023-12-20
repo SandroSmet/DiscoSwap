@@ -4,7 +4,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.discoswap.R
 import com.example.discoswap.model.messages.Message
@@ -16,7 +15,7 @@ import com.example.discoswap.ui.messages.components.Messages
 
 @Composable
 fun MessageOverview(
-    messageOverviewViewModel: MessageOverviewViewModel = hiltViewModel(),
+    messageOverviewViewModel: MessageOverviewViewModel = viewModel(factory = MessageOverviewViewModel.Factory),
     onViewDetailClicked: (Message) -> Unit,
 ) {
     val messageOverviewState by messageOverviewViewModel.uiState.collectAsState()

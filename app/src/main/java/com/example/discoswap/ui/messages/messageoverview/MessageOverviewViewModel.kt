@@ -13,16 +13,13 @@ import com.example.discoswap.DiscoSwapApplication
 import com.example.discoswap.data.MessageSampler
 import com.example.discoswap.data.MessagesRepository
 import com.example.discoswap.ui.messages.MessageApiState
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class MessageOverviewViewModel @Inject constructor(
+class MessageOverviewViewModel(
     private val messagesRepository: MessagesRepository
 ) : ViewModel() {
 
@@ -45,6 +42,17 @@ class MessageOverviewViewModel @Inject constructor(
             } catch (e: Exception) {
                 e.printStackTrace()
                 MessageApiState.Error
+            }
+        }
+    }
+
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val application = (this[APPLICATION_KEY] as DiscoSwapApplication)
+                val messagesRepository = application.container.messagesRepository
+                MessageOverviewViewModel(messagesRepository = messagesRepository
+                )
             }
         }
     }

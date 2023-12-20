@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -20,6 +21,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.discoswap.R
 import com.example.discoswap.ui.messages.messageoverview.MessageOverview
 import com.example.discoswap.ui.messages.messagedetail.MessageDetailScreen
+import com.example.discoswap.ui.messages.messagedetail.MessageDetailViewModel
+import com.example.discoswap.ui.messages.messageoverview.MessageOverviewViewModel
 import com.example.discoswap.ui.navigation.BottomNavigationBar
 import com.example.discoswap.ui.navigation.NavigationMenuItem
 import com.example.discoswap.ui.orders.OrderOverview
@@ -66,7 +69,8 @@ fun DiscoSwapNavGraph(
     ) {
         composable(DiscoSwapDestinations.MESSAGES_ROUTE) {
             MenuScaffold(currentRoute = currentRoute, menuItems) {
-                MessageOverview(onViewDetailClicked = { message -> navActions.navigateToMessageDetail(message.id) })
+                MessageOverview(onViewDetailClicked = { message -> navActions.navigateToMessageDetail(message.id) }
+                )
             }
         }
         composable(DiscoSwapDestinations.ORDERS_ROUTE) {

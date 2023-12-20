@@ -1,11 +1,14 @@
 package com.example.discoswap
 
 import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+import com.example.discoswap.data.AppContainer
+import com.example.discoswap.data.DefaultAppContainer
 
-@HiltAndroidApp
 class DiscoSwapApplication : Application() {
+    lateinit var container: AppContainer
+
     override fun onCreate() {
         super.onCreate()
+        container = DefaultAppContainer()
     }
 }

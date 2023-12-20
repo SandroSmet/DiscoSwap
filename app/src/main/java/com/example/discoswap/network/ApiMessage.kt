@@ -4,7 +4,6 @@ import com.example.discoswap.model.messages.Message
 import com.example.discoswap.model.messages.Type
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import javax.annotation.Nullable
 
 @Serializable
 data class ApiMessages(
