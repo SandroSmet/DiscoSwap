@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,11 +20,10 @@ import androidx.navigation.compose.rememberNavController
 import com.example.discoswap.R
 import com.example.discoswap.ui.messages.messageoverview.MessageOverview
 import com.example.discoswap.ui.messages.messagedetail.MessageDetailScreen
-import com.example.discoswap.ui.messages.messagedetail.MessageDetailViewModel
-import com.example.discoswap.ui.messages.messageoverview.MessageOverviewViewModel
 import com.example.discoswap.ui.navigation.BottomNavigationBar
 import com.example.discoswap.ui.navigation.NavigationMenuItem
-import com.example.discoswap.ui.orders.OrderOverview
+import com.example.discoswap.ui.orders.orderoverview.OrderOverviewScreen
+import com.example.discoswap.ui.orders.orderdetail.OrderDetailScreen
 
 @Composable
 fun DiscoSwapNavGraph(
@@ -42,7 +40,9 @@ fun DiscoSwapNavGraph(
         route = DiscoSwapDestinations.MESSAGES_ROUTE,
         title = R.string.title_messages,
         Icons.Filled.Mail,
-        navigationAction = { navActions.navigateToMessages() },
+        navigationAction = {
+            navActions.navigateToMessages()
+        },
     )
     val ordersMenuItem = NavigationMenuItem(
         route = DiscoSwapDestinations.ORDERS_ROUTE,
@@ -75,19 +75,10 @@ fun DiscoSwapNavGraph(
         }
         composable(DiscoSwapDestinations.ORDERS_ROUTE) {
             MenuScaffold(currentRoute = currentRoute, menuItems) {
-                OrderOverview(onViewDetailClicked = { order -> navActions.navigateToOrderDetail(order.id) })
+                OrderOverviewScreen(onViewDetailClicked = { order -> navActions.navigateToOrderDetail(order.id) })
             }
         }
-//        composable(AdminDestinations.SUPPLEMENTS_ROUTE) {
-//            MenuScaffold(currentRoute = currentRoute, menuItems) {
-//                SupplementsOverview()
-//            }
-//        }
-//        composable(AdminDestinations.CALENDER_ROUTE) {
-//            MenuScaffold(currentRoute = currentRoute, menuItems) {
-//                CalendarOverview()
-//            }
-//        }
+
         composable(
             DiscoSwapDestinations.MESSAGE_DETAIL_ROUTE,
         ) {
@@ -95,13 +86,15 @@ fun DiscoSwapNavGraph(
                 onBack = { navController.popBackStack() },
             )
         }
-//        composable(
-//            AdminDestinations.QUOTATION_EDIT_ROUTE,
-//        ) {
-//            QuotationEditScreen(
-//                onBack = { navController.popBackStack() },
-//            )
-//        }
+
+        composable(
+            DiscoSwapDestinations.ORDER_DETAIL_ROUTE,
+        ) {
+            OrderDetailScreen(
+                onBack = { navController.popBackStack() },
+            )
+        }
+
     }
 }
 

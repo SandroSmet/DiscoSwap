@@ -61,7 +61,7 @@ class MessageDetailViewModel(
                 val messagesRepository = application.container.messagesRepository
                 MessageDetailViewModel(
                     messagesRepository = messagesRepository,
-                    savedStateHandle = this.createSavedStateHandle(),
+                    savedStateHandle = createSavedStateHandle(),
                 )
             }
         }

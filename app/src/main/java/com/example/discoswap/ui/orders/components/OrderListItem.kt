@@ -40,7 +40,7 @@ fun OrderListItem(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     Text(
-                        order.buyer.username,
+                        order.buyer,
                         style = MaterialTheme.typography.titleMedium,
                     )
                 }

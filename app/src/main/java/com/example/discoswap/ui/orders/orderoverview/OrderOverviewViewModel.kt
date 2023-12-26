@@ -1,4 +1,4 @@
-package com.example.discoswap.ui.messages.messageoverview
+package com.example.discoswap.ui.orders.orderoverview
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,38 +10,39 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.discoswap.DiscoSwapApplication
-import com.example.discoswap.data.MessageSampler
-import com.example.discoswap.data.MessagesRepository
+import com.example.discoswap.data.OrderSampler
+import com.example.discoswap.data.OrdersRepository
 import com.example.discoswap.ui.messages.MessageApiState
+import com.example.discoswap.ui.orders.OrderApiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class MessageOverviewViewModel(
-    private val messagesRepository: MessagesRepository
+class OrderOverviewViewModel(
+    private val ordersRepository: OrdersRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(MessageOverviewState(MessageSampler.getAll()))
-    val uiState: StateFlow<MessageOverviewState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(OrderOverviewState(OrderSampler.getAll()))
+    val uiState: StateFlow<OrderOverviewState> = _uiState.asStateFlow()
 
-    var messageApiState: MessageApiState by mutableStateOf(MessageApiState.Loading)
+    var orderApiState: OrderApiState by mutableStateOf(OrderApiState.Loading)
         private set
 
     init {
-        getApiMessages()
+        getApiOrders()
     }
 
-    private fun getApiMessages() {
+    private fun getApiOrders() {
         viewModelScope.launch {
-            messageApiState = try {
-                val result = messagesRepository.getMessages()
-                _uiState.update { it.copy(currentMessageList = result) }
-                MessageApiState.Success(result)
+            orderApiState = try {
+                val result = ordersRepository.getOrders()
+                _uiState.update { it.copy(currentOrderList = result) }
+                OrderApiState.Success(result)
             } catch (e: Exception) {
                 e.printStackTrace()
-                MessageApiState.Error
+                OrderApiState.Error
             }
         }
     }
@@ -50,8 +51,8 @@ class MessageOverviewViewModel(
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application = (this[APPLICATION_KEY] as DiscoSwapApplication)
-                val messagesRepository = application.container.messagesRepository
-                MessageOverviewViewModel(messagesRepository = messagesRepository)
+                val ordersRepository = application.container.ordersRepository
+                OrderOverviewViewModel(ordersRepository = ordersRepository)
             }
         }
     }

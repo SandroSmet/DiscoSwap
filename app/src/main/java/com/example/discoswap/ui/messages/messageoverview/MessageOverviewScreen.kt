@@ -18,8 +18,6 @@ fun MessageOverview(
     messageOverviewViewModel: MessageOverviewViewModel = viewModel(factory = MessageOverviewViewModel.Factory),
     onViewDetailClicked: (Message) -> Unit,
 ) {
-    val messageOverviewState by messageOverviewViewModel.uiState.collectAsState()
-
     when (val messageApiState = messageOverviewViewModel.messageApiState) {
         is MessageApiState.Loading -> {
             Text("Loading messages from api...")
