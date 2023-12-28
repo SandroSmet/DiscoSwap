@@ -2,6 +2,7 @@
 
 package com.example.discoswap.ui.messages.components
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,13 +31,16 @@ fun MessageListItem(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp,
         ),
-        modifier = Modifier.padding(bottom = 10.dp, start = 10.dp, end = 10.dp),
+        modifier = Modifier.padding(bottom = 10.dp, start = 10.dp, end = 10.dp)
     ) {
         ListItem(
             modifier = Modifier.clickable
                 {
                     onViewDetailClicked(message)
                 },
+            colors = ListItemDefaults.colors(
+                containerColor = if(message.read) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.primaryContainer,
+            ),
             headlineText = {
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
