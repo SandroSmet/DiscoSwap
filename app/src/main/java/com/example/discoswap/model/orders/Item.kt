@@ -1,7 +1,7 @@
 package com.example.discoswap.model.orders
 
 data class Item(
-    var id: String,
+    var id: Long,
     var price: Price,
     var mediaCondition: String,
     var sleeveCondition: String,

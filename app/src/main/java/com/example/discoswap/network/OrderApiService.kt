@@ -8,5 +8,5 @@ interface OrderApiService {
     suspend fun getOrders(): ApiOrders
 
     @GET("marketplace/orders/{id}?token=mnwalUhcJspcuQYpcIYCWLWYNWSgaDBgdtQQRmNi")
-    suspend fun getOrderDetails(@Path("id") id: String): ApiOrderItem
+    suspend fun getOrderDetails(@Path("id") id: String): ApiOrderDetail
 }

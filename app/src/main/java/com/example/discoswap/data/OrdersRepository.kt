@@ -7,7 +7,7 @@ import com.example.discoswap.network.asDomainObjects
 
 interface OrdersRepository {
     suspend fun getOrders(): List<Order>
-    suspend fun getOrderDetails(orderId: String): Order
+    suspend fun getOrderDetail(orderId: String): Order
 
 }
 
@@ -18,7 +18,7 @@ class ApiOrdersRepository(
         return ordersApiService.getOrders().orders.asDomainObjects()
     }
 
-    override suspend fun getOrderDetails(orderId: String): Order {
+    override suspend fun getOrderDetail(orderId: String): Order {
         return ordersApiService.getOrderDetails(orderId).asDomainObject()
     }
 }

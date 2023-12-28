@@ -9,18 +9,20 @@ import com.example.discoswap.model.orders.Status
 object OrderSampler {
     val releases = mutableListOf<Release>(
         Release(
-            id = "123",
+            id = 123,
             description = "Great LP from John in 1988",
             artist = "John",
             format = "LP",
             title = "Some song",
+            thumbnail = "a link",
         ),
         Release(
-            id = "1234",
+            id = 1234,
             description = "Great 12\" from James in 1985",
             artist = "James",
             format = "12",
             title = "Another song",
+            thumbnail = "another link",
         ),
     )
     val prices = mutableListOf<Price>(
@@ -39,7 +41,7 @@ object OrderSampler {
     )
     val items = mutableListOf<Item>(
         Item(
-            id = "123",
+            id = 123,
             price = prices[0],
             itemLocation = "50-5",
             conditionComments = "good",

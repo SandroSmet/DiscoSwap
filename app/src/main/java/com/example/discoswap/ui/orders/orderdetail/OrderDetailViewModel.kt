@@ -11,15 +11,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.discoswap.DiscoSwapApplication
-import com.example.discoswap.data.MessageSampler
 import com.example.discoswap.data.OrderSampler
 import com.example.discoswap.data.OrdersRepository
-import com.example.discoswap.model.messages.Message
 import com.example.discoswap.model.orders.Order
 import com.example.discoswap.ui.DiscoSwapDestinationsArgs
-import com.example.discoswap.ui.messages.MessageDetailApiState
-import com.example.discoswap.ui.messages.messagedetail.MessageDetailState
-import com.example.discoswap.ui.messages.messagedetail.MessageDetailViewModel
 import com.example.discoswap.ui.orders.OrderDetailApiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -49,7 +44,7 @@ class OrderDetailViewModel(
     private fun loadOrder(id: String) {
         viewModelScope.launch {
             orderDetailApiState = try {
-                val order = ordersRepository.getOrderDetails(id)
+                val order = ordersRepository.getOrderDetail(id)
                 _uiState.update { it.copy(order = order) }
                 OrderDetailApiState.Success(order)
             } catch (e: Exception) {
