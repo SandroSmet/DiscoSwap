@@ -1,7 +1,14 @@
 package com.example.discoswap.data
 
-import com.example.discoswap.network.MessageApiService
-import com.example.discoswap.network.OrderApiService
+import com.example.discoswap.data.inventory.ApiInventoryRepository
+import com.example.discoswap.data.inventory.InventoryRepository
+import com.example.discoswap.data.message.ApiMessagesRepository
+import com.example.discoswap.data.order.ApiOrdersRepository
+import com.example.discoswap.data.message.MessagesRepository
+import com.example.discoswap.data.order.OrdersRepository
+import com.example.discoswap.network.inventory.InventoryApiService
+import com.example.discoswap.network.message.MessageApiService
+import com.example.discoswap.network.order.OrderApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -11,6 +18,7 @@ import retrofit2.Retrofit
 interface AppContainer {
     val messagesRepository: MessagesRepository
     val ordersRepository: OrdersRepository
+    val inventoryRepository: InventoryRepository
 }
 
 @OptIn(ExperimentalSerializationApi::class)
@@ -37,12 +45,19 @@ class DefaultAppContainer : AppContainer{
         retrofit.create(OrderApiService::class.java)
     }
 
+    private val retrofitService3: InventoryApiService by lazy {
+        retrofit.create(InventoryApiService::class.java)
+    }
+
     override val messagesRepository: MessagesRepository by lazy {
         ApiMessagesRepository(retrofitService)
     }
 
     override val ordersRepository: OrdersRepository by lazy {
         ApiOrdersRepository(retrofitService2)
+    }
+    override val inventoryRepository: InventoryRepository by lazy {
+        ApiInventoryRepository(retrofitService3)
     }
 
 }

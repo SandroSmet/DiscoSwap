@@ -62,7 +62,7 @@ class DiscoSwapNavigationActions(private val navController: NavHostController) {
         navigateToMenuItem(DiscoSwapDestinations.INVENTORY_ROUTE)
     }
 
-    fun navigateToMenuItem(route: String) {
+    private fun navigateToMenuItem(route: String) {
         navController.navigate(route) {
             Key.F
             // Pop up to the start destination of the graph to avoid building up a large stack of destinations
@@ -84,7 +84,7 @@ class DiscoSwapNavigationActions(private val navController: NavHostController) {
         navController.navigate("$ORDER_DETAIL_SCREEN/$orderId")
     }
 
-    fun navigateToItemDetail(itemId: Int) {
+    fun navigateToItemDetail(itemId: Long) {
         navController.navigate("$ITEM_DETAIL_SCREEN/$itemId")
     }
 }

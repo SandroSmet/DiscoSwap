@@ -18,12 +18,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.discoswap.R
-import com.example.discoswap.ui.messages.messageoverview.MessageOverview
-import com.example.discoswap.ui.messages.messagedetail.MessageDetailScreen
+import com.example.discoswap.ui.inventory.inventoryoverview.InventoryOverviewScreen
+import com.example.discoswap.ui.message.messageoverview.MessageOverviewScreen
+import com.example.discoswap.ui.message.messagedetail.MessageDetailScreen
 import com.example.discoswap.ui.navigation.BottomNavigationBar
 import com.example.discoswap.ui.navigation.NavigationMenuItem
-import com.example.discoswap.ui.orders.orderoverview.OrderOverviewScreen
-import com.example.discoswap.ui.orders.orderdetail.OrderDetailScreen
+import com.example.discoswap.ui.order.orderoverview.OrderOverviewScreen
+import com.example.discoswap.ui.order.orderdetail.OrderDetailScreen
 
 @Composable
 fun DiscoSwapNavGraph(
@@ -69,13 +70,17 @@ fun DiscoSwapNavGraph(
     ) {
         composable(DiscoSwapDestinations.MESSAGES_ROUTE) {
             MenuScaffold(currentRoute = currentRoute, menuItems) {
-                MessageOverview(onViewDetailClicked = { message -> navActions.navigateToMessageDetail(message.id) }
-                )
+                MessageOverviewScreen(onViewDetailClicked = { message -> navActions.navigateToMessageDetail(message.id) })
             }
         }
         composable(DiscoSwapDestinations.ORDERS_ROUTE) {
             MenuScaffold(currentRoute = currentRoute, menuItems) {
                 OrderOverviewScreen(onViewDetailClicked = { order -> navActions.navigateToOrderDetail(order.id) })
+            }
+        }
+        composable(DiscoSwapDestinations.INVENTORY_ROUTE) {
+            MenuScaffold(currentRoute = currentRoute, menuItems) {
+                InventoryOverviewScreen(onViewDetailClicked = { item -> navActions.navigateToItemDetail(item.id) })
             }
         }
 
@@ -86,7 +91,6 @@ fun DiscoSwapNavGraph(
                 onBack = { navController.popBackStack() },
             )
         }
-
         composable(
             DiscoSwapDestinations.ORDER_DETAIL_ROUTE,
         ) {
@@ -94,7 +98,13 @@ fun DiscoSwapNavGraph(
                 onBack = { navController.popBackStack() },
             )
         }
-
+        /*composable(
+            DiscoSwapDestinations.ITEM_DETAIL_ROUTE,
+        ) {
+            ItemDetailScreen(
+                onBack = { navController.popBackStack() },
+            )
+        }*/
     }
 }
 
