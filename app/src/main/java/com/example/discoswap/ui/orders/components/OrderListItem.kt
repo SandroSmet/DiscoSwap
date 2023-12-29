@@ -47,7 +47,7 @@ fun OrderListItem(
             },
 
             supportingText = {
-                Text(order.status.name, Modifier.padding(3.dp))
+                Text(order.status.displayName, Modifier.padding(3.dp))
             },
         )
         Divider()

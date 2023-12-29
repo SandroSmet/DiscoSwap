@@ -57,31 +57,11 @@ data class ApiValue(
     val currency: String,
 )
 
-fun ApiOrderInfo.asDomainObject() =
-    Order(
-        id = this.id,
-        buyer = this.buyer.username,
-        status = when (this.status) {
-            "New Order" -> Status.NewOrder
-            "Buyer Contacted" -> Status.BuyerContacted
-            "Invoice Sent" -> Status.InvoiceSent
-            "Payment Pending" -> Status.PaymentPending
-            "Payment Received" -> Status.PaymentReceived
-            "In Progress" -> Status.InProgress
-            "Shipped" -> Status.Shipped
-            "Refund Sent" -> Status.RefundSent
-            "Cancelled (Non-Paying Buyer)" -> Status.CancelledNonPayingBuyer
-            "Cancelled (Item Unavailable)" -> Status.CancelledItemUnavailable
-            "Cancelled (Per Buyer's Request)" -> Status.CancelledBuyerRequest
-            else -> Status.NewOrder
-        },
-        items = listOf(),
-    )
-
 fun ApiOrderDetail.asDomainObject() =
     Order(
         id = this.id,
         buyer = this.buyer.username,
+        total = this.total.asDomainObject(),
         status = when (this.status) {
             "New Order" -> Status.NewOrder
             "Buyer Contacted" -> Status.BuyerContacted
@@ -122,6 +102,7 @@ fun List<ApiOrderInfo>.asDomainObjects() =
         Order(
             id = it.id,
             buyer = it.buyer.username,
+            total = it.total.asDomainObject(),
             status = when (it.status) {
                 "New Order" -> Status.NewOrder
                 "Buyer Contacted" -> Status.BuyerContacted

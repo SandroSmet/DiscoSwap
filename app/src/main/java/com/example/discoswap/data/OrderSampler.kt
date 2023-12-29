@@ -55,6 +55,7 @@ object OrderSampler {
         Order(
             id = "1",
             buyer = "Jan",
+            total = prices[0],
             status = Status.InvoiceSent,
             items = listOf(items[0]),
         ),
