@@ -25,7 +25,7 @@ object InventorySampler {
     )
 
 
-    private val inventoryItems = mutableListOf<Item>(
+    val inventoryItems = mutableListOf<Item>(
         Item(
             id = 1,
             price = prices[0],
