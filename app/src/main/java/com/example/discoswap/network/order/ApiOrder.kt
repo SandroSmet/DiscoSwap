@@ -75,6 +75,7 @@ fun ApiOrderDetail.asDomainObject() =
             "Cancelled (Non-Paying Buyer)" -> Status.CancelledNonPayingBuyer
             "Cancelled (Item Unavailable)" -> Status.CancelledItemUnavailable
             "Cancelled (Per Buyer's Request)" -> Status.CancelledBuyerRequest
+            "Merged" -> Status.Merged
             else -> Status.NewOrder
         },
         items = this.items.map {
@@ -109,6 +110,7 @@ fun List<ApiOrderInfo>.asDomainObjects() =
                 "Cancelled (Non-Paying Buyer)" -> Status.CancelledNonPayingBuyer
                 "Cancelled (Item Unavailable)" -> Status.CancelledItemUnavailable
                 "Cancelled (Per Buyer's Request)" -> Status.CancelledBuyerRequest
+                "Merged" -> Status.Merged
                 else -> Status.NewOrder
             },
             items = listOf(),

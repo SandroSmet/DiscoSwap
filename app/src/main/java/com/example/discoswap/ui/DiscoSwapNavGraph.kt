@@ -71,17 +71,23 @@ fun DiscoSwapNavGraph(
     ) {
         composable(DiscoSwapDestinations.MESSAGES_ROUTE) {
             MenuScaffold(currentRoute = currentRoute, menuItems) {
-                MessageOverviewScreen(onViewDetailClicked = { message -> navActions.navigateToMessageDetail(message.id) })
+                MessageOverviewScreen(
+                    onViewDetailClicked = { message -> navActions.navigateToMessageDetail(message.id) }
+                )
             }
         }
         composable(DiscoSwapDestinations.ORDERS_ROUTE) {
             MenuScaffold(currentRoute = currentRoute, menuItems) {
-                OrderOverviewScreen(onViewDetailClicked = { order -> navActions.navigateToOrderDetail(order.id) })
+                OrderOverviewScreen(
+                    onViewDetailClicked = { order -> navActions.navigateToOrderDetail(order.id) }
+                )
             }
         }
         composable(DiscoSwapDestinations.INVENTORY_ROUTE) {
             MenuScaffold(currentRoute = currentRoute, menuItems) {
-                InventoryOverviewScreen(onViewDetailClicked = { item -> navActions.navigateToItemDetail(item.id) })
+                InventoryOverviewScreen(
+                    onViewDetailClicked = { item -> navActions.navigateToItemDetail(item.id) }
+                )
             }
         }
 
@@ -97,6 +103,7 @@ fun DiscoSwapNavGraph(
         ) {
             OrderDetailScreen(
                 onBack = { navController.popBackStack() },
+                onViewDetailClicked = { item -> navActions.navigateToItemDetail(item.id) }
             )
         }
         composable(

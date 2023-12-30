@@ -22,4 +22,5 @@ enum class Status(val displayName: String) {
     CancelledNonPayingBuyer("Cancelled - Non-Paying Buyer"),
     CancelledItemUnavailable("Cancelled - Item Unavailable"),
     CancelledBuyerRequest("Cancelled - Buyer Request"),
+    Merged("Merged"),
 }
