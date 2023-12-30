@@ -9,14 +9,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.discoswap.DiscoSwapApplication
-import com.example.discoswap.data.inventory.ApiInventoryRepository
 import com.example.discoswap.data.inventory.InventoryRepository
 import com.example.discoswap.data.inventory.InventorySampler
-import com.example.discoswap.data.message.MessageSampler
-import com.example.discoswap.data.message.MessagesRepository
 import com.example.discoswap.ui.inventory.InventoryApiState
-import com.example.discoswap.ui.message.MessageApiState
-import com.example.discoswap.ui.message.messageoverview.MessageOverviewState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

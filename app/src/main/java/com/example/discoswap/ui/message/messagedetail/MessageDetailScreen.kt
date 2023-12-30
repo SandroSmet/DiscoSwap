@@ -1,7 +1,5 @@
 package com.example.discoswap.ui.message.messagedetail
 
-import android.text.method.LinkMovementMethod
-import android.widget.TextView
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,11 +13,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.discoswap.R
@@ -32,7 +30,7 @@ fun MessageDetailScreen(
     messageDetailViewModel: MessageDetailViewModel = viewModel(factory = MessageDetailViewModel.Factory)
 ) {
 
-    when (val messageDetailApiState = messageDetailViewModel.messageDetailApiState) {
+    when (messageDetailViewModel.messageDetailApiState) {
         is MessageDetailApiState.Loading -> {
             Text("Loading message details from api...")
         }
@@ -42,13 +40,16 @@ fun MessageDetailScreen(
         }
 
         is MessageDetailApiState.Success -> {
-            val messageText = messageDetailApiState.message.text?.let { transformHTML(it) }
+            val message = messageDetailViewModel.uiMessageState.collectAsState().value
+            val messageText = message?.text?.let { transformHTML(it) }
             Scaffold(
                 modifier = Modifier.fillMaxSize(),
                 topBar = {
                     TopAppBar(
                         title = {
-                            Text(text = stringResource(R.string.message_username) + " " + messageDetailApiState.message.name)
+                            if (message != null) {
+                                Text(text = stringResource(R.string.message_username) + " " + message.name)
+                            }
                         },
                         navigationIcon = {
                             IconButton(onClick = onBack) {
@@ -64,8 +65,12 @@ fun MessageDetailScreen(
                         .padding(innerPadding)
                         .fillMaxWidth(),
                 ) {
-                    Text(text = messageDetailApiState.message.subject, fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
-                    Text(text = messageText!!, fontWeight = FontWeight.Medium, fontSize = 14.sp)
+                    if (message != null) {
+                        Text(text = message.subject, fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
+                    }
+                    if (messageText != null) {
+                        Text(text = messageText, fontWeight = FontWeight.Medium, fontSize = 14.sp)
+                    }
                 }
             }
         }
@@ -88,29 +93,4 @@ fun transformHTML(html: String): String {
         transformedText = transformedText.split("You can view details on this order")[0]
 
     return transformedText
-}
-
-@Composable
-fun HtmlText(html: String, modifier: Modifier = Modifier) {
-    AndroidView(
-        modifier = modifier,
-        factory = { context ->
-            val textView = TextView(context)
-            textView.movementMethod = LinkMovementMethod.getInstance()
-            textView
-                  },
-        update = { it.text =
-            HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT)
-            if(it.text.contains("￼ ￼ ￼ ￼ "))
-                it.text = it.text.split("￼ ￼ ￼ ￼ ")[1]
-            if(it.text.contains("; } }"))
-                it.text = it.text.split("; } }")[1]
-            if(it.text.contains("￼"))
-                it.text = it.text.replace(Regex("￼"), "")
-            if(it.text.contains("## Reply above this line ##"))
-                it.text = it.text.split("## Reply above this line ##")[1]
-            if(it.text.contains("You can view details on this order"))
-                it.text = it.text.split("You can view details on this order")[0]
-        }
-    )
 }

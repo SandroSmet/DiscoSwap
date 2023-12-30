@@ -12,7 +12,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.discoswap.DiscoSwapApplication
 import com.example.discoswap.data.order.OrderSampler
-import com.example.discoswap.data.order.OrdersRepository
+import com.example.discoswap.data.order.OrderRepository
 import com.example.discoswap.model.order.Order
 import com.example.discoswap.ui.DiscoSwapDestinationsArgs
 import com.example.discoswap.ui.order.OrderDetailApiState
@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class OrderDetailViewModel(
-    private val ordersRepository: OrdersRepository,
+    private val orderRepository: OrderRepository,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val orderIdAsString: String = savedStateHandle[DiscoSwapDestinationsArgs.ORDER_ID_ARG]!!
@@ -44,7 +44,7 @@ class OrderDetailViewModel(
     private fun loadOrder(id: String) {
         viewModelScope.launch {
             orderDetailApiState = try {
-                val order = ordersRepository.getOrderDetail(id)
+                val order = orderRepository.getOrderDetail(id)
                 _uiState.update { it.copy(order = order) }
                 OrderDetailApiState.Success(order)
             } catch (e: Exception) {
@@ -57,9 +57,9 @@ class OrderDetailViewModel(
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as DiscoSwapApplication)
-                val ordersRepository = application.container.ordersRepository
+                val ordersRepository = application.container.orderRepository
                 OrderDetailViewModel(
-                    ordersRepository = ordersRepository,
+                    orderRepository = ordersRepository,
                     savedStateHandle = createSavedStateHandle(),
                 )
             }

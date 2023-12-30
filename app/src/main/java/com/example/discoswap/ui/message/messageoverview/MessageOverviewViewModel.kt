@@ -11,38 +11,46 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.discoswap.DiscoSwapApplication
 import com.example.discoswap.data.message.MessageSampler
-import com.example.discoswap.data.message.MessagesRepository
+import com.example.discoswap.data.message.MessageRepository
+import com.example.discoswap.model.message.Message
 import com.example.discoswap.ui.message.MessageApiState
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MessageOverviewViewModel(
-    private val messagesRepository: MessagesRepository
+    private val messageRepository: MessageRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(MessageOverviewState(MessageSampler.getAll()))
+    private val _uiState = MutableStateFlow(MessageOverviewState())
     val uiState: StateFlow<MessageOverviewState> = _uiState.asStateFlow()
 
     var messageApiState: MessageApiState by mutableStateOf(MessageApiState.Loading)
         private set
 
+    lateinit var uiListState: StateFlow<List<Message>>
+
     init {
-        getApiMessages()
+        getRepoMessages()
     }
 
-    private fun getApiMessages() {
-        viewModelScope.launch {
-            messageApiState = try {
-                val result = messagesRepository.getMessages()
-                _uiState.update { it.copy(currentMessageList = result) }
-                MessageApiState.Success(result)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                MessageApiState.Error
-            }
+    private fun getRepoMessages() {
+        try {
+            uiListState = messageRepository.getMessages()
+                .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5_000L),
+                    initialValue = emptyList()
+                )
+            messageApiState = MessageApiState.Success
+        }
+        catch (e: Exception) {
+            e.printStackTrace()
+            MessageApiState.Error
         }
     }
 
@@ -50,8 +58,8 @@ class MessageOverviewViewModel(
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application = (this[APPLICATION_KEY] as DiscoSwapApplication)
-                val messagesRepository = application.container.messagesRepository
-                MessageOverviewViewModel(messagesRepository = messagesRepository)
+                val messagesRepository = application.container.messageRepository
+                MessageOverviewViewModel(messageRepository = messagesRepository)
             }
         }
     }

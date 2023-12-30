@@ -2,6 +2,7 @@ package com.example.discoswap.ui.message.messageoverview
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.discoswap.R
 import com.example.discoswap.model.message.Message
@@ -24,7 +25,7 @@ fun MessageOverviewScreen(
             Text("Error loading messages from api.")
         }
         is MessageApiState.Success -> {
-            val items = messageApiState.messages
+            val items = messageOverviewViewModel.uiListState.collectAsState().value
             TabView(
                 Tab(R.string.title_messages_all) {
                     Messages(

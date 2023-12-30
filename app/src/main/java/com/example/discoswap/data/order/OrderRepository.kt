@@ -5,15 +5,15 @@ import com.example.discoswap.network.order.OrderApiService
 import com.example.discoswap.network.order.asDomainObject
 import com.example.discoswap.network.order.asDomainObjects
 
-interface OrdersRepository {
+interface OrderRepository {
     suspend fun getOrders(): List<Order>
     suspend fun getOrderDetail(orderId: String): Order
 
 }
 
-class ApiOrdersRepository(
+class ApiOrderRepository(
     private val ordersApiService: OrderApiService
-): OrdersRepository {
+): OrderRepository {
     override suspend fun getOrders(): List<Order> {
         return ordersApiService.getOrders().orders.asDomainObjects()
     }

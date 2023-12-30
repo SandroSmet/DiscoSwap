@@ -11,7 +11,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.discoswap.DiscoSwapApplication
 import com.example.discoswap.data.order.OrderSampler
-import com.example.discoswap.data.order.OrdersRepository
+import com.example.discoswap.data.order.OrderRepository
 import com.example.discoswap.ui.order.OrderApiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class OrderOverviewViewModel(
-    private val ordersRepository: OrdersRepository
+    private val orderRepository: OrderRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(OrderOverviewState(OrderSampler.getAll()))
@@ -36,7 +36,7 @@ class OrderOverviewViewModel(
     private fun getApiOrders() {
         viewModelScope.launch {
             orderApiState = try {
-                val result = ordersRepository.getOrders()
+                val result = orderRepository.getOrders()
                 _uiState.update { it.copy(currentOrderList = result) }
                 OrderApiState.Success(result)
             } catch (e: Exception) {
@@ -50,8 +50,8 @@ class OrderOverviewViewModel(
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application = (this[APPLICATION_KEY] as DiscoSwapApplication)
-                val ordersRepository = application.container.ordersRepository
-                OrderOverviewViewModel(ordersRepository = ordersRepository)
+                val ordersRepository = application.container.orderRepository
+                OrderOverviewViewModel(orderRepository = ordersRepository)
             }
         }
     }

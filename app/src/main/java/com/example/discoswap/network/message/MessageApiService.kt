@@ -1,5 +1,6 @@
 package com.example.discoswap.network.message
 
+import kotlinx.coroutines.flow.flow
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -11,3 +12,6 @@ interface MessageApiService {
     suspend fun getMessageDetails(@Path("id") id: String): ApiMessageItem
 
 }
+
+fun MessageApiService.getMessagesAsFlow() = flow { emit(getMessages()) }
+fun MessageApiService.getMessageDetailsAsFlow(id: String) = flow { emit(getMessageDetails(id)) }
