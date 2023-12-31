@@ -32,24 +32,22 @@ fun MessageDetailScreen(
 
     when (messageDetailViewModel.messageDetailApiState) {
         is MessageDetailApiState.Loading -> {
-            Text("Loading message details from api...")
+            Text("Loading message details...")
         }
 
         is MessageDetailApiState.Error -> {
-            Text("Error loading message details from api.")
+            Text("Error loading message details.")
         }
 
         is MessageDetailApiState.Success -> {
-            val message = messageDetailViewModel.uiMessageState.collectAsState().value
-            val messageText = message?.text?.let { transformHTML(it) }
+            val message = messageDetailViewModel.uiState.collectAsState().value.message!!
+            val messageText = message.text?.let { transformHTML(it) }
             Scaffold(
                 modifier = Modifier.fillMaxSize(),
                 topBar = {
                     TopAppBar(
                         title = {
-                            if (message != null) {
-                                Text(text = stringResource(R.string.message_username) + " " + message.name)
-                            }
+                            Text(text = stringResource(R.string.message_username) + " " + message.name)
                         },
                         navigationIcon = {
                             IconButton(onClick = onBack) {
@@ -65,9 +63,7 @@ fun MessageDetailScreen(
                         .padding(innerPadding)
                         .fillMaxWidth(),
                 ) {
-                    if (message != null) {
-                        Text(text = message.subject, fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
-                    }
+                    Text(text = message.subject, fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
                     if (messageText != null) {
                         Text(text = messageText, fontWeight = FontWeight.Medium, fontSize = 14.sp)
                     }

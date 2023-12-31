@@ -17,15 +17,15 @@ fun MessageOverviewScreen(
     messageOverviewViewModel: MessageOverviewViewModel = viewModel(factory = MessageOverviewViewModel.Factory),
     onViewDetailClicked: (Message) -> Unit,
 ) {
-    when (val messageApiState = messageOverviewViewModel.messageApiState) {
+    when (messageOverviewViewModel.messageApiState) {
         is MessageApiState.Loading -> {
-            Text("Loading messages from api...")
+            Text("Loading messages...")
         }
         is MessageApiState.Error -> {
-            Text("Error loading messages from api.")
+            Text("Error loading messages.")
         }
         is MessageApiState.Success -> {
-            val items = messageOverviewViewModel.uiListState.collectAsState().value
+            val items = messageOverviewViewModel.uiState.collectAsState().value.currentMessageList
             TabView(
                 Tab(R.string.title_messages_all) {
                     Messages(

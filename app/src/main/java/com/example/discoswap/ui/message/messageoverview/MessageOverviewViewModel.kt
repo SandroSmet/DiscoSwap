@@ -14,10 +14,12 @@ import com.example.discoswap.data.message.MessageSampler
 import com.example.discoswap.data.message.MessageRepository
 import com.example.discoswap.model.message.Message
 import com.example.discoswap.ui.message.MessageApiState
+import com.example.discoswap.ui.message.MessageDetailApiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -32,25 +34,24 @@ class MessageOverviewViewModel(
     var messageApiState: MessageApiState by mutableStateOf(MessageApiState.Loading)
         private set
 
-    lateinit var uiListState: StateFlow<List<Message>>
-
     init {
         getRepoMessages()
     }
 
     private fun getRepoMessages() {
-        try {
-            uiListState = messageRepository.getMessages()
-                .stateIn(
-                    scope = viewModelScope,
-                    started = SharingStarted.WhileSubscribed(5_000L),
-                    initialValue = emptyList()
-                )
-            messageApiState = MessageApiState.Success
-        }
-        catch (e: Exception) {
-            e.printStackTrace()
-            MessageApiState.Error
+        viewModelScope.launch {
+            messageRepository.getMessages()
+                .catch {
+                    messageApiState = MessageApiState.Error
+                }
+                .collect { messages ->
+                    _uiState.update {
+                        it.copy(
+                            currentMessageList = messages,
+                        )
+                    }
+                    messageApiState = MessageApiState.Success
+                }
         }
     }
 

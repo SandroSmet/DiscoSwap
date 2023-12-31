@@ -1,10 +1,8 @@
 package com.example.discoswap.ui.message.messagedetail
 
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.text.Placeholder
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -14,21 +12,18 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.discoswap.DiscoSwapApplication
-import com.example.discoswap.data.message.MessageSampler
 import com.example.discoswap.data.message.MessageRepository
-import com.example.discoswap.model.message.Message
 import com.example.discoswap.ui.DiscoSwapDestinationsArgs
 import com.example.discoswap.ui.message.MessageDetailApiState
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MessageDetailViewModel(
-    private val messagesRepository: MessageRepository,
+    private val messageRepository: MessageRepository,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val messageIdAsString: String = savedStateHandle[DiscoSwapDestinationsArgs.MESSAGE_ID_ARG]!!
@@ -42,24 +37,24 @@ class MessageDetailViewModel(
 
     val uiState: StateFlow<MessageDetailState> = _uiState.asStateFlow()
 
-    lateinit var uiMessageState: StateFlow<Message?>
-
     init {
         loadMessage(messageIdAsString)
     }
 
     private fun loadMessage(id: String) {
-        try {
-            uiMessageState = messagesRepository.getMessageDetails(id)
-                .stateIn(
-                    scope = viewModelScope,
-                    started = SharingStarted.WhileSubscribed(5_000L),
-                    initialValue = null,
-                )
-            messageDetailApiState = MessageDetailApiState.Success
-        }
-        catch (e: Exception) {
-            MessageDetailApiState.Error
+        viewModelScope.launch {
+            messageRepository.getMessageDetails(id)
+                .catch {
+                    messageDetailApiState = MessageDetailApiState.Error
+                }
+                .collect { message ->
+                    _uiState.update {
+                        it.copy(
+                            message = message,
+                        )
+                    }
+                    messageDetailApiState = MessageDetailApiState.Success
+                }
         }
     }
 
@@ -69,7 +64,7 @@ class MessageDetailViewModel(
                 val application = (this[APPLICATION_KEY] as DiscoSwapApplication)
                 val messagesRepository = application.container.messageRepository
                 MessageDetailViewModel(
-                    messagesRepository = messagesRepository,
+                    messageRepository = messagesRepository,
                     savedStateHandle = createSavedStateHandle(),
                 )
             }

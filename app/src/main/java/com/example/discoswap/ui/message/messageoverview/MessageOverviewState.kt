@@ -4,5 +4,5 @@ import androidx.compose.ui.text.Placeholder
 import com.example.discoswap.model.message.Message
 
 data class MessageOverviewState(
-    val placeholder: Placeholder? = null,
+    val currentMessageList: List<Message> = emptyList(),
 )
