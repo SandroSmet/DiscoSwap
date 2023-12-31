@@ -4,5 +4,5 @@ import com.example.discoswap.model.inventory.Item
 
 
 data class ItemDetailState(
-    val item: Item,
+    val item: Item? = null,
 )

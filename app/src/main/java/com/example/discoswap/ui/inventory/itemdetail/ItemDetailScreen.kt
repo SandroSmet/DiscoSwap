@@ -19,6 +19,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -36,7 +37,7 @@ fun ItemDetailScreen(
     itemDetailViewModel: ItemDetailViewModel = viewModel(factory = ItemDetailViewModel.Factory)
 ) {
 
-    when (val inventoryItemDetailApiState = itemDetailViewModel.inventoryItemDetailApiState) {
+    when (itemDetailViewModel.inventoryItemDetailApiState) {
         is InventoryItemDetailApiState.Loading -> {
             Text("Loading item details from api...")
         }
@@ -46,12 +47,13 @@ fun ItemDetailScreen(
         }
 
         is InventoryItemDetailApiState.Success -> {
+            val item = itemDetailViewModel.uiState.collectAsState().value.item!!
             Scaffold(
                 modifier = Modifier.fillMaxSize(),
                 topBar = {
                     TopAppBar(
                         title = {
-                            Text(text = "Item: #" + inventoryItemDetailApiState.inventoryItem.id)
+                            Text(text = "Item: #" + item.id)
                         },
                         navigationIcon = {
                             IconButton(onClick = onBack) {
@@ -67,8 +69,7 @@ fun ItemDetailScreen(
                         .padding(innerPadding)
                         .fillMaxWidth(),
                 ) {
-                    item(inventoryItemDetailApiState.inventoryItem.id) {
-                        val item = inventoryItemDetailApiState.inventoryItem
+                    item(item.id) {
                         Card(
                             modifier = Modifier
                                 .padding(8.dp)

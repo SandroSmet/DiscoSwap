@@ -10,18 +10,18 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.discoswap.DiscoSwapApplication
 import com.example.discoswap.data.inventory.InventoryRepository
-import com.example.discoswap.data.inventory.InventorySampler
 import com.example.discoswap.ui.inventory.InventoryApiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class InventoryOverviewViewModel(
     private val inventoryRepository: InventoryRepository
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(InventoryOverviewState(InventorySampler.getAll()))
+    private val _uiState = MutableStateFlow(InventoryOverviewState())
     val uiState: StateFlow<InventoryOverviewState> = _uiState.asStateFlow()
 
     var inventoryApiState: InventoryApiState by mutableStateOf(InventoryApiState.Loading)
@@ -33,14 +33,18 @@ class InventoryOverviewViewModel(
 
     private fun getApiInventory() {
         viewModelScope.launch {
-            inventoryApiState = try {
-                val result = inventoryRepository.getInventory()
-                _uiState.update { it.copy(currentInventoryItemList = result) }
-                InventoryApiState.Success(result)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                InventoryApiState.Error
-            }
+            inventoryRepository.getInventory()
+                .catch {
+                    inventoryApiState = InventoryApiState.Error
+                }
+                .collect { inventory ->
+                    _uiState.update {
+                        it.copy(
+                            currentInventoryItemList = inventory,
+                        )
+                    }
+                    inventoryApiState = InventoryApiState.Success
+                }
         }
     }
 

@@ -2,6 +2,7 @@ package com.example.discoswap.ui.inventory.inventoryoverview
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.discoswap.model.inventory.Item
 import com.example.discoswap.ui.inventory.InventoryApiState
@@ -12,7 +13,7 @@ fun InventoryOverviewScreen(
     inventoryOverviewViewModel: InventoryOverviewViewModel = viewModel(factory = InventoryOverviewViewModel.Factory),
     onViewDetailClicked: (Item) -> Unit,
 ) {
-    when (val inventoryApiState = inventoryOverviewViewModel.inventoryApiState) {
+    when (inventoryOverviewViewModel.inventoryApiState) {
         is InventoryApiState.Loading -> {
             Text("Loading inventory from api...")
         }
@@ -20,7 +21,7 @@ fun InventoryOverviewScreen(
             Text("Error loading inventory from api.")
         }
         is InventoryApiState.Success -> {
-            val items = inventoryApiState.inventoryItems
+            val items = inventoryOverviewViewModel.uiState.collectAsState().value.currentInventoryItemList
             Items(
                 items,
                 onViewDetailClicked = onViewDetailClicked,

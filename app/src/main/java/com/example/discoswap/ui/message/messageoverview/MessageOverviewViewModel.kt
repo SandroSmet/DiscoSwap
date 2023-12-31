@@ -10,17 +10,12 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.discoswap.DiscoSwapApplication
-import com.example.discoswap.data.message.MessageSampler
 import com.example.discoswap.data.message.MessageRepository
-import com.example.discoswap.model.message.Message
 import com.example.discoswap.ui.message.MessageApiState
-import com.example.discoswap.ui.message.MessageDetailApiState
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 

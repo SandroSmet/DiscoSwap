@@ -12,13 +12,13 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.discoswap.DiscoSwapApplication
 import com.example.discoswap.data.inventory.InventoryRepository
-import com.example.discoswap.data.inventory.InventorySampler
 import com.example.discoswap.model.inventory.Item
 import com.example.discoswap.ui.DiscoSwapDestinationsArgs
 import com.example.discoswap.ui.inventory.InventoryItemDetailApiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -31,9 +31,7 @@ class ItemDetailViewModel (
     var inventoryItemDetailApiState: InventoryItemDetailApiState by mutableStateOf(InventoryItemDetailApiState.Loading)
         private set
 
-    private val _uiState = MutableStateFlow(
-        ItemDetailState(InventorySampler.inventoryItems.find { item: Item -> item.id == 1L }!!),
-    )
+    private val _uiState = MutableStateFlow(ItemDetailState())
 
     val uiState: StateFlow<ItemDetailState> = _uiState.asStateFlow()
 
@@ -43,13 +41,18 @@ class ItemDetailViewModel (
 
     private fun loadItem(id: String) {
         viewModelScope.launch {
-            inventoryItemDetailApiState = try {
-                val item = inventoryRepository.getInventoryItemDetails(id)
-                _uiState.update { it.copy(item = item) }
-                InventoryItemDetailApiState.Success(item)
-            } catch (e: Exception) {
-                InventoryItemDetailApiState.Error
-            }
+            inventoryRepository.getInventoryItemDetails(id)
+                .catch {
+                    inventoryItemDetailApiState = InventoryItemDetailApiState.Error
+                }
+                .collect { item ->
+                    _uiState.update {
+                        it.copy(
+                            item = item,
+                        )
+                    }
+                    inventoryItemDetailApiState = InventoryItemDetailApiState.Success
+                }
         }
     }
 

@@ -2,10 +2,10 @@ package com.example.discoswap.data
 
 import android.content.Context
 import androidx.room.Room
-import com.example.discoswap.data.database.MessageDao
-import com.example.discoswap.data.database.MessageDatabase
-import com.example.discoswap.data.inventory.ApiInventoryRepository
+import com.example.discoswap.data.inventory.CachingInventoryRepository
+import com.example.discoswap.data.message.MessageDao
 import com.example.discoswap.data.inventory.InventoryRepository
+import com.example.discoswap.data.inventory.ItemDao
 import com.example.discoswap.data.message.CachingMessageRepository
 import com.example.discoswap.data.order.ApiOrderRepository
 import com.example.discoswap.data.message.MessageRepository
@@ -46,7 +46,7 @@ class DefaultAppContainer(
     private val messageDao: MessageDao by lazy {
         Room.databaseBuilder(
             applicationContext,
-            MessageDatabase::class.java,
+            DiscoSwapDatabase::class.java,
             "message_database"
             ).build().messageDao()
     }
@@ -62,8 +62,19 @@ class DefaultAppContainer(
         ApiOrderRepository(retrofit.create(OrderApiService::class.java))
     }
 
+    private val itemDao: ItemDao by lazy {
+        Room.databaseBuilder(
+            applicationContext,
+            DiscoSwapDatabase::class.java,
+            "inventory_database"
+            ).build().itemDao()
+    }
+
     override val inventoryRepository: InventoryRepository by lazy {
-        ApiInventoryRepository(retrofit.create(InventoryApiService::class.java))
+        CachingInventoryRepository(
+            itemDao = itemDao,
+            inventoryApiService = retrofit.create(InventoryApiService::class.java)
+        )
     }
 
 }

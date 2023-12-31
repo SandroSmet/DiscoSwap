@@ -1,4 +1,4 @@
-package com.example.discoswap.data.database
+package com.example.discoswap.data.message
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
