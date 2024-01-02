@@ -1,5 +1,7 @@
 package com.example.discoswap.network.order
 
+import com.example.discoswap.network.inventory.InventoryApiService
+import kotlinx.coroutines.flow.flow
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -10,3 +12,5 @@ interface OrderApiService {
     @GET("marketplace/orders/{id}?token=mnwalUhcJspcuQYpcIYCWLWYNWSgaDBgdtQQRmNi")
     suspend fun getOrderDetails(@Path("id") id: String): ApiOrderDetail
 }
+
+fun OrderApiService.getOrdersAsFlow() = flow { emit(getOrders()) }

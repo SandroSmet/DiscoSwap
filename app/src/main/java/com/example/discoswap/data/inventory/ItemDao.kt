@@ -12,9 +12,12 @@ interface ItemDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(item: DbItem)
 
-    @Query("SELECT * FROM items")
+    @Query("SELECT * FROM items WHERE orderId = '0'")
     fun getInventory(): Flow<List<DbItem>>
 
     @Query("SELECT * FROM items WHERE id = :id")
     fun getInventoryItemDetails(id: String): Flow<DbItem>
+
+    @Query("SELECT * FROM items WHERE orderId <> '0'")
+    fun getOrderItems(): Flow<List<DbItem>>
 }

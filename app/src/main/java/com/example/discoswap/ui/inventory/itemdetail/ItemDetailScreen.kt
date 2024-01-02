@@ -39,11 +39,11 @@ fun ItemDetailScreen(
 
     when (itemDetailViewModel.inventoryItemDetailApiState) {
         is InventoryItemDetailApiState.Loading -> {
-            Text("Loading item details from api...")
+            Text("Loading item details...")
         }
 
         is InventoryItemDetailApiState.Error -> {
-            Text("Error loading item details from api.")
+            Text("Error loading item details.")
         }
 
         is InventoryItemDetailApiState.Success -> {

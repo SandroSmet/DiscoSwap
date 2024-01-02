@@ -15,10 +15,10 @@ fun InventoryOverviewScreen(
 ) {
     when (inventoryOverviewViewModel.inventoryApiState) {
         is InventoryApiState.Loading -> {
-            Text("Loading inventory from api...")
+            Text("Loading inventory...")
         }
         is InventoryApiState.Error -> {
-            Text("Error loading inventory from api.")
+            Text("Error loading inventory.")
         }
         is InventoryApiState.Success -> {
             val items = inventoryOverviewViewModel.uiState.collectAsState().value.currentInventoryItemList

@@ -28,10 +28,10 @@ class InventoryOverviewViewModel(
         private set
 
     init {
-        getApiInventory()
+        getRepoInventory()
     }
 
-    private fun getApiInventory() {
+    private fun getRepoInventory() {
         viewModelScope.launch {
             inventoryRepository.getInventory()
                 .catch {

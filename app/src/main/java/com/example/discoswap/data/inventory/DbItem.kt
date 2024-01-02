@@ -10,6 +10,7 @@ import com.example.discoswap.model.order.Price
 data class DbItem (
     @PrimaryKey
     var id: Long,
+    var orderId: String = "0",
     var price: Double,
     var mediaCondition: String,
     var sleeveCondition: String,
@@ -24,7 +25,7 @@ data class DbItem (
     var releaseThumbnail: String,
 )
 
-fun DbItem.asDomainInventoryItem() = Item(
+fun DbItem.asDomainInventoryItems() = Item(
     id = id,
     price = price.asDomainPrice(),
     mediaCondition = mediaCondition,
@@ -42,7 +43,7 @@ fun DbItem.asDomainInventoryItem() = Item(
     ),
 )
 
-fun List<DbItem>.asDomainInventoryItem() = map { it.asDomainInventoryItem() }
+fun List<DbItem>.asDomainInventoryItems() = map { it.asDomainInventoryItems() }
 
 fun Double.asDomainPrice() = Price(
     value = this,
@@ -51,6 +52,7 @@ fun Double.asDomainPrice() = Price(
 
 fun Item.asDbItem() = DbItem(
     id = id,
+    orderId = orderId,
     price = price.value,
     mediaCondition = mediaCondition,
     sleeveCondition = sleeveCondition,

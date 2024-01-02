@@ -2,6 +2,7 @@ package com.example.discoswap.ui.order.orderoverview
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.discoswap.R
 import com.example.discoswap.model.order.Order
@@ -16,17 +17,17 @@ fun OrderOverviewScreen(
     orderOverviewViewModel: OrderOverviewViewModel = viewModel(factory = OrderOverviewViewModel.Factory),
     onViewDetailClicked: (Order) -> Unit,
 ) {
-    when (val orderApiState = orderOverviewViewModel.orderApiState) {
+    when (orderOverviewViewModel.orderApiState) {
         is OrderApiState.Loading -> {
-            Text("Loading orders from api...")
+            Text("Loading orders...")
         }
 
         is OrderApiState.Error -> {
-            Text("Error loading orders from api.")
+            Text("Error loading orders.")
         }
 
         is OrderApiState.Success -> {
-            val items = orderApiState.orders
+            val items = orderOverviewViewModel.uiState.collectAsState().value.currentOrderList
             TabView(
                 Tab(R.string.title_orders_all) {
                     Orders(

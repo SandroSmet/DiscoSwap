@@ -41,7 +41,7 @@ data class ApiRelease(
 
 @Serializable
 data class ApiOrders(
-    val orders: List<ApiOrderInfo>,
+    val orders: List<ApiOrderDetail>,
 )
 
 @Serializable
@@ -92,30 +92,29 @@ fun ApiOrderDetail.asDomainObject() =
         },
     )
 
-fun List<ApiOrderInfo>.asDomainObjects() =
-    map {
-        Order(
-            id = it.id,
-            buyer = it.buyer.username,
-            total = it.total.asDomainObject(),
-            status = when (it.status) {
-                "New Order" -> Status.NewOrder
-                "Buyer Contacted" -> Status.BuyerContacted
-                "Invoice Sent" -> Status.InvoiceSent
-                "Payment Pending" -> Status.PaymentPending
-                "Payment Received" -> Status.PaymentReceived
-                "In Progress" -> Status.InProgress
-                "Shipped" -> Status.Shipped
-                "Refund Sent" -> Status.RefundSent
-                "Cancelled (Non-Paying Buyer)" -> Status.CancelledNonPayingBuyer
-                "Cancelled (Item Unavailable)" -> Status.CancelledItemUnavailable
-                "Cancelled (Per Buyer's Request)" -> Status.CancelledBuyerRequest
-                "Merged" -> Status.Merged
-                else -> Status.NewOrder
-            },
-            items = listOf(),
-        )
-    }
+fun List<ApiOrderInfo>.asDomainObjects() = map { it.asDomainOrder() }
+
+fun ApiOrderInfo.asDomainOrder() = Order(
+    id = this.id,
+    buyer = this.buyer.username,
+    total = this.total.asDomainObject(),
+    status = when (this.status) {
+        "New Order" -> Status.NewOrder
+        "Buyer Contacted" -> Status.BuyerContacted
+        "Invoice Sent" -> Status.InvoiceSent
+        "Payment Pending" -> Status.PaymentPending
+        "Payment Received" -> Status.PaymentReceived
+        "In Progress" -> Status.InProgress
+        "Shipped" -> Status.Shipped
+        "Refund Sent" -> Status.RefundSent
+        "Cancelled (Non-Paying Buyer)" -> Status.CancelledNonPayingBuyer
+        "Cancelled (Item Unavailable)" -> Status.CancelledItemUnavailable
+        "Cancelled (Per Buyer's Request)" -> Status.CancelledBuyerRequest
+        "Merged" -> Status.Merged
+        else -> Status.NewOrder
+    },
+    items = listOf(),
+)
 
 fun ApiValue.asDomainObject() =
     Price(
@@ -131,4 +130,17 @@ fun ApiRelease.asDomainObject() =
         artist = this.artist,
         format = this.format,
         thumbnail = this.thumbnail,
+    )
+
+fun ApiOrderItemDetail.asDomainObject(orderId: String) =
+    Item(
+        id = this.id,
+        price = this.price.asDomainObject(),
+        mediaCondition = this.media_condition,
+        sleeveCondition = this.sleeve_condition,
+        conditionComments = this.condition_comments,
+        itemLocation = this.item_location,
+        privateComments = this.private_comments,
+        release = this.release.asDomainObject(),
+        orderId = orderId,
     )

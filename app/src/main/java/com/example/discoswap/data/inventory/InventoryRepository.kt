@@ -25,7 +25,7 @@ class CachingInventoryRepository(
     }
 
     override suspend fun getInventory(): Flow<List<Item>> {
-        return itemDao.getInventory().map { it.asDomainInventoryItem() }
+        return itemDao.getInventory().map { it.asDomainInventoryItems() }
             .onEach { items ->
                 if (items.isEmpty()) {
                     refresh()
@@ -34,7 +34,7 @@ class CachingInventoryRepository(
     }
 
     override suspend fun getInventoryItemDetails(inventoryItemId: String): Flow<Item> {
-        return itemDao.getInventoryItemDetails(inventoryItemId).map { it.asDomainInventoryItem() }
+        return itemDao.getInventoryItemDetails(inventoryItemId).map { it.asDomainInventoryItems() }
     }
 
     override suspend fun refresh() {

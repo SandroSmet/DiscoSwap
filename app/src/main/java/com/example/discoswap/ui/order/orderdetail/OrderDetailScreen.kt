@@ -23,6 +23,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -45,22 +46,23 @@ fun OrderDetailScreen(
     onViewDetailClicked: (Item) -> Unit,
 ) {
 
-    when (val orderDetailApiState = orderDetailViewModel.orderDetailApiState) {
+    when (orderDetailViewModel.orderDetailApiState) {
         is OrderDetailApiState.Loading -> {
-            Text("Loading order details from api...")
+            Text("Loading order details...")
         }
 
         is OrderDetailApiState.Error -> {
-            Text("Error loading order details from api.")
+            Text("Error loading order details.")
         }
 
         is OrderDetailApiState.Success -> {
+            val order = orderDetailViewModel.uiState.collectAsState().value.order!!
             Scaffold(
                 modifier = Modifier.fillMaxSize(),
                 topBar = {
                     TopAppBar(
                         title = {
-                            Text(text = stringResource(R.string.message_username) + " " + orderDetailApiState.order.buyer)
+                            Text(text = stringResource(R.string.message_username) + " " + order.buyer)
                         },
                         navigationIcon = {
                             IconButton(onClick = onBack) {
@@ -76,20 +78,20 @@ fun OrderDetailScreen(
                         .padding(innerPadding)
                         .fillMaxWidth(),
                 ) {
-                    item(orderDetailApiState.order.id) {
+                    item(order.id) {
                         Text(
-                            text = "Order #" + orderDetailApiState.order.id,
+                            text = "Order #" + order.id,
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 18.sp,
                             modifier = Modifier.padding(8.dp),
                         )
                         Text(
-                            text = "Status: " + orderDetailApiState.order.status.displayName,
+                            text = "Status: " + order.status.displayName,
                             fontWeight = FontWeight.Bold,
                             fontSize = 14.sp,
                             modifier = Modifier.padding(start = 8.dp),
                         )
-                        for (item in orderDetailApiState.order.items) {
+                        for (item in order.items) {
                             Card(
                                 elevation = CardDefaults.cardElevation(
                                     defaultElevation = 4.dp,
@@ -148,7 +150,7 @@ fun OrderDetailScreen(
                         }
 
                         Text(
-                            text = "Total: €" + orderDetailApiState.order.total.value.toString(),
+                            text = "Total: €" + order.total.value.toString(),
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 18.sp,
                             modifier = Modifier.padding(8.dp),

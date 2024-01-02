@@ -7,8 +7,9 @@ import com.example.discoswap.data.message.MessageDao
 import com.example.discoswap.data.inventory.InventoryRepository
 import com.example.discoswap.data.inventory.ItemDao
 import com.example.discoswap.data.message.CachingMessageRepository
-import com.example.discoswap.data.order.ApiOrderRepository
 import com.example.discoswap.data.message.MessageRepository
+import com.example.discoswap.data.order.CachingOrderRepository
+import com.example.discoswap.data.order.OrderDao
 import com.example.discoswap.data.order.OrderRepository
 import com.example.discoswap.network.inventory.InventoryApiService
 import com.example.discoswap.network.message.MessageApiService
@@ -43,12 +44,16 @@ class DefaultAppContainer(
         .baseUrl(baseUrl)
         .build()
 
-    private val messageDao: MessageDao by lazy {
+    private val database: DiscoSwapDatabase by lazy {
         Room.databaseBuilder(
             applicationContext,
             DiscoSwapDatabase::class.java,
-            "message_database"
-            ).build().messageDao()
+            "discoswap_database"
+        ).build()
+    }
+
+    private val messageDao: MessageDao by lazy {
+        database.messageDao()
     }
 
     override val messageRepository: MessageRepository by lazy {
@@ -58,16 +63,20 @@ class DefaultAppContainer(
         )
     }
 
+    private val orderDao: OrderDao by lazy {
+        database.orderDao()
+    }
+
     override val orderRepository: OrderRepository by lazy {
-        ApiOrderRepository(retrofit.create(OrderApiService::class.java))
+        CachingOrderRepository(
+            orderDao = orderDao,
+            itemDao = itemDao,
+            orderApiService = retrofit.create(OrderApiService::class.java),
+        )
     }
 
     private val itemDao: ItemDao by lazy {
-        Room.databaseBuilder(
-            applicationContext,
-            DiscoSwapDatabase::class.java,
-            "inventory_database"
-            ).build().itemDao()
+        database.itemDao()
     }
 
     override val inventoryRepository: InventoryRepository by lazy {

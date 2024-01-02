@@ -19,6 +19,7 @@ import com.example.discoswap.ui.order.OrderDetailApiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -32,7 +33,7 @@ class OrderDetailViewModel(
         private set
 
     private val _uiState = MutableStateFlow(
-        OrderDetailState(OrderSampler.orders.find { order: Order -> order.id == "1" }!!),
+        OrderDetailState(),
     )
 
     val uiState: StateFlow<OrderDetailState> = _uiState.asStateFlow()
@@ -43,13 +44,18 @@ class OrderDetailViewModel(
 
     private fun loadOrder(id: String) {
         viewModelScope.launch {
-            orderDetailApiState = try {
-                val order = orderRepository.getOrderDetail(id)
-                _uiState.update { it.copy(order = order) }
-                OrderDetailApiState.Success(order)
-            } catch (e: Exception) {
-                OrderDetailApiState.Error
-            }
+            orderRepository.getOrderDetails(id)
+                .catch {
+                    orderDetailApiState = OrderDetailApiState.Error
+                }
+                .collect { order ->
+                    _uiState.update {
+                        it.copy(
+                            order = order,
+                        )
+                    }
+                    orderDetailApiState = OrderDetailApiState.Success
+                }
         }
     }
 
