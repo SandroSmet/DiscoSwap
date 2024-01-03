@@ -36,7 +36,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.discoswap.R
 import com.example.discoswap.model.inventory.Item
+import com.example.discoswap.model.order.Order
 import com.example.discoswap.ui.order.OrderDetailApiState
+import com.example.discoswap.ui.order.components.OrderInfo
+import com.example.discoswap.ui.order.components.OrderItemInfo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -79,92 +82,20 @@ fun OrderDetailScreen(
                         .fillMaxWidth(),
                 ) {
                     item(order.id) {
-                        Text(
-                            text = stringResource(R.string.order_detail_order, order.id),
-                            fontWeight = FontWeight.ExtraBold,
-                            fontSize = 18.sp,
-                            modifier = Modifier.padding(8.dp),
+                        OrderInfo(
+                            order = order,
                         )
-                        Text(
-                            text = stringResource(
-                                R.string.order_detail_status,
-                                order.status.displayName
-                            ),
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 14.sp,
-                            modifier = Modifier.padding(start = 8.dp),
-                        )
+
                         for (item in order.items) {
-                            Card(
-                                elevation = CardDefaults.cardElevation(
-                                    defaultElevation = 4.dp,
-                                ),
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .fillMaxWidth(),
-                            ) {
-                                ListItem(
-                                    modifier = Modifier.clickable
-                                    {
-                                        onViewDetailClicked(item)
-                                    },
-                                    colors = ListItemDefaults.colors(
-                                        containerColor = MaterialTheme.colorScheme.surface,
-                                    ),
-                                    leadingContent = {
-                                        AsyncImage(
-                                            model = item.release.thumbnail,
-                                            contentDescription = stringResource(R.string.item_thumbnail),
-                                            contentScale = ContentScale.Crop,
-                                            modifier = Modifier
-                                                .width(100.dp)
-                                                .aspectRatio(1.2f)
-                                                .clip(
-                                                    RoundedCornerShape(10.dp)
-                                                )
-                                        )
-                                    },
-
-                                    headlineText = {
-                                        Text(
-                                            text = item.release.description,
-                                            style = MaterialTheme.typography.titleMedium,
-                                            fontWeight = FontWeight.Medium,
-                                            modifier = Modifier.padding(bottom = 4.dp),
-                                        )
-                                    },
-
-                                    supportingText = {
-                                        Text(
-                                            text = stringResource(
-                                                R.string.order_detail_price,
-                                                item.price.value
-                                            ),
-                                            style = MaterialTheme.typography.bodyMedium,
-                                        )
-                                        Text(
-                                            text = stringResource(
-                                                R.string.order_detail_media,
-                                                item.mediaCondition
-                                            ),
-                                            style = MaterialTheme.typography.bodyMedium,
-                                        )
-                                        Text(
-                                            text = stringResource(
-                                                R.string.order_detail_sleeve,
-                                                item.sleeveCondition
-                                            ),
-                                            style = MaterialTheme.typography.bodyMedium,
-                                        )
-                                    },
-                                )
-                            }
+                            OrderItemInfo(
+                                item = item,
+                                onViewDetailClicked = onViewDetailClicked,
+                            )
                         }
 
                         Text(
                             text = stringResource(R.string.order_detail_total, order.total.value),
-                            fontWeight = FontWeight.ExtraBold,
-                            fontSize = 18.sp,
+                            style = MaterialTheme.typography.titleMedium,
                             modifier = Modifier.padding(8.dp),
                         )
                     }
@@ -172,5 +103,4 @@ fun OrderDetailScreen(
             }
         }
     }
-
 }

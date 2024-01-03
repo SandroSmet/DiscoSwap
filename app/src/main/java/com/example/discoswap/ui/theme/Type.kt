@@ -14,19 +14,20 @@ val muktaRegularFont = FontFamily(
 
 // Set of Material typography styles to start with
 val Typography = Typography(
+    titleSmall = TextStyle(
+        fontFamily = muktaRegularFont,
+        fontWeight = FontWeight.Bold,
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
+        letterSpacing = 0.sp,
+    ),
+
     titleMedium = TextStyle(
         fontFamily = muktaRegularFont,
         fontWeight = FontWeight.Bold,
         fontSize = 16.sp,
         lineHeight = 24.sp,
-    ),
-
-    bodyLarge = TextStyle(
-        fontFamily = muktaRegularFont,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp,
+        letterSpacing = 0.sp,
     ),
 
     titleLarge = TextStyle(
@@ -43,5 +44,21 @@ val Typography = Typography(
         fontSize = 11.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp
-    )
+    ),
+
+    bodyLarge = TextStyle(
+        fontFamily = muktaRegularFont,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5.sp,
+    ),
+
+    bodyMedium = TextStyle(
+        fontFamily = muktaRegularFont,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
+        letterSpacing = 0.sp,
+    ),
 )
