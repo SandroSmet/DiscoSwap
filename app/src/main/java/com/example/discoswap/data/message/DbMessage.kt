@@ -14,6 +14,7 @@ data class DbMessage (
     var subject: String,
     var type: Type,
     var read: Boolean,
+    var orderId: String? = "",
 )
 
 fun Message.asDbMessage(): DbMessage = DbMessage(
@@ -23,6 +24,7 @@ fun Message.asDbMessage(): DbMessage = DbMessage(
     subject = subject,
     type = type,
     read = read,
+    orderId = orderId,
 )
 
 fun List<DbMessage>.asDomainMessages() = map { it.asDomainMessage() }
@@ -34,4 +36,5 @@ fun DbMessage.asDomainMessage() = Message(
     subject = subject,
     type = type,
     read = read,
+    orderId = orderId,
 )

@@ -38,7 +38,7 @@ class OrderOverviewViewModel(
 
     private fun refreshOrders() {
         viewModelScope.launch {
-            val refreshOrders = async { orderRepository.refresh() }
+            val refreshOrders = async { orderRepository.refreshAll() }
             try {
                 awaitAll(refreshOrders)
             }

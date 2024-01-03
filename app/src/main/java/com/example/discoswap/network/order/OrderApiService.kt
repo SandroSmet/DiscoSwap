@@ -14,3 +14,4 @@ interface OrderApiService {
 }
 
 fun OrderApiService.getOrdersAsFlow() = flow { emit(getOrders()) }
+fun OrderApiService.getOrderDetailsAsFlow(id: String) = flow { emit(getOrderDetails(id)) }

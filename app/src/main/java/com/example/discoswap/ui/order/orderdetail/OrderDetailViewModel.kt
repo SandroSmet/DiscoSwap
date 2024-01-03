@@ -11,9 +11,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.discoswap.DiscoSwapApplication
-import com.example.discoswap.data.order.OrderSampler
 import com.example.discoswap.data.order.OrderRepository
-import com.example.discoswap.model.order.Order
 import com.example.discoswap.ui.DiscoSwapDestinationsArgs
 import com.example.discoswap.ui.order.OrderDetailApiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -44,6 +42,7 @@ class OrderDetailViewModel(
 
     private fun loadOrder(id: String) {
         viewModelScope.launch {
+            orderRepository.refreshDetail(id)
             orderRepository.getOrderDetails(id)
                 .catch {
                     orderDetailApiState = OrderDetailApiState.Error

@@ -7,6 +7,7 @@ data class Message(
     var subject: String,
     var type: Type,
     var read: Boolean,
+    var orderId: String? = "",
 )
 
 enum class Type {

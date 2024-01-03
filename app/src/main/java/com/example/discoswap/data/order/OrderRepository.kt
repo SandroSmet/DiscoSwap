@@ -7,6 +7,7 @@ import com.example.discoswap.model.order.Order
 import com.example.discoswap.network.order.ApiOrderDetail
 import com.example.discoswap.network.order.OrderApiService
 import com.example.discoswap.network.order.asDomainObject
+import com.example.discoswap.network.order.getOrderDetailsAsFlow
 import com.example.discoswap.network.order.getOrdersAsFlow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -15,7 +16,8 @@ import kotlinx.coroutines.flow.map
 interface OrderRepository {
     suspend fun getOrders(): Flow<List<Order>>
     suspend fun getOrderDetails(orderId: String): Flow<Order>
-    suspend fun refresh()
+    suspend fun refreshAll()
+    suspend fun refreshDetail(orderId: String)
 
 }
 
@@ -42,11 +44,17 @@ class CachingOrderRepository(
         }
     }
 
-    override suspend fun refresh() {
+    override suspend fun refreshAll() {
         orderApiService.getOrdersAsFlow().collect {
             for (order in it.orders) {
                 insertOrderWithItems(order)
             }
+        }
+    }
+
+    override suspend fun refreshDetail(orderId: String) {
+        orderApiService.getOrderDetailsAsFlow(orderId).collect {
+            insertOrderWithItems(it)
         }
     }
 

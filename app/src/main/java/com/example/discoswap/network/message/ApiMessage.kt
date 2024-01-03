@@ -19,6 +19,8 @@ data class ApiMessageItem(
     @SerialName("from_user")
     val user: ApiUser,
     val body: String?,
+    @SerialName("order_id")
+    val orderId: String?,
 )
 
 @Serializable
@@ -39,21 +41,5 @@ fun ApiMessageItem.asDomainObject() =
             else -> Type.Other
         },
         read = this.read,
+        orderId = this.orderId,
     )
-
-fun List<ApiMessageItem>.asDomainObjects() =
-    map {
-        Message(
-            id = it.id,
-            subject = it.subject,
-            text = it.body,
-            name = it.user.username,
-            type = when (it.type) {
-                "order-notification" -> Type.Order
-                "wantlist-notification" -> Type.WantList
-                "user-message" -> Type.User
-                else -> Type.Other
-            },
-            read = it.read,
-        )
-    }
