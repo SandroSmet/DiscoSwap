@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">DiscoSwap</string>
+    <string name="menu_back">Menu back</string>
+    <string name="item_thumbnail">Item thumbnail</string>
+    <string name="message_detail_from">From: %1$s</string>
+    <string name="navigation_bar_icon">Navigation bar icon</string>
+
+    <!-- Titles -->
     <string name="title_messages">Messages</string>
     <string name="title_orders">Orders</string>
     <string name="title_inventory">Inventory</string>
@@ -13,6 +19,43 @@
     <string name="title_orders_paid">Paid</string>
     <string name="title_orders_sent">Sent</string>
     <string name="title_orders_other">Other</string>
-    <string name="message_username">From:</string>
-    <string name="menu_back">Menu back</string>
+
+    <!-- Item Detail -->
+    <string name="item_detail_release">Release: %1$s - %2$s</string>
+    <string name="item_detail_media_condition">Media condition: %1$s</string>
+    <string name="item_detail_sleeve_condition">Sleeve condition: %1$s</string>
+    <string name="item_detail_price">Price: €%1$s</string>
+    <string name="item_detail_id">Item: #%1$s</string>
+    <string name="item_detail_public_comments">Public Comments: %1$s</string>
+    <string name="item_detail_private_comments">Private Comments: %1$s</string>
+    <string name="item_detail_location">Location: %1$s</string>
+
+    <!-- Item Overview -->
+    <string name="item_overview_artist_title">%1$s - %2$s</string>
+    <string name="item_overview_price">Price: €%1$s</string>
+    <string name="item_overview_media">Media: %1$s</string>
+    <string name="item_overview_sleeve">Sleeve: %1$s</string>
+
+    <!-- Order Detail -->
+    <string name="order_detail_from">From: %1$s</string>
+    <string name="order_detail_order">Order #%1$s</string>
+    <string name="order_detail_status">Status: %1$s</string>
+    <string name="order_detail_price">Price: €%1$s</string>
+    <string name="order_detail_media">Media: %1$s</string>
+    <string name="order_detail_sleeve">Sleeve: %1$s</string>
+    <string name="order_detail_total">Total: €%1$s</string>
+
+    <!-- Loading & Error -->
+    <string name="loading_inventory">Loading inventory...</string>
+    <string name="error_loading_inventory">Error loading inventory.</string>
+    <string name="loading_item_details">Loading item details...</string>
+    <string name="error_loading_item_details">Error loading item details.</string>
+    <string name="loading_messages">Loading messages...</string>
+    <string name="error_loading_messages">Error loading messages.</string>
+    <string name="loading_message_details">Loading message details...</string>
+    <string name="error_loading_message_details">Error loading message details.</string>
+    <string name="loading_orders">Loading orders...</string>
+    <string name="error_loading_orders">Error loading orders.</string>
+    <string name="loading_order_details">Loading order details...</string>
+    <string name="error_loading_order_details">Error loading order details.</string>
 </resources>

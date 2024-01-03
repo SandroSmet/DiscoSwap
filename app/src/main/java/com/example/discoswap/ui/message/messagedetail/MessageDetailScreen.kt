@@ -34,11 +34,11 @@ fun MessageDetailScreen(
 
     when (messageDetailViewModel.messageDetailApiState) {
         is MessageDetailApiState.Loading -> {
-            Text("Loading message details...")
+            Text(stringResource(R.string.loading_message_details))
         }
 
         is MessageDetailApiState.Error -> {
-            Text("Error loading message details.")
+            Text(stringResource(R.string.error_loading_message_details))
         }
 
         is MessageDetailApiState.Success -> {
@@ -49,7 +49,7 @@ fun MessageDetailScreen(
                 topBar = {
                     TopAppBar(
                         title = {
-                            Text(text = "${stringResource(R.string.message_username)} ${message.name}")
+                            Text(text = stringResource(R.string.message_detail_from, message.name))
                         },
                         navigationIcon = {
                             IconButton(onClick = onBack) {

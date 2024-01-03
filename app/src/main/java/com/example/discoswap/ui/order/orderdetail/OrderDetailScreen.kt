@@ -48,11 +48,11 @@ fun OrderDetailScreen(
 
     when (orderDetailViewModel.orderDetailApiState) {
         is OrderDetailApiState.Loading -> {
-            Text("Loading order details...")
+            Text(stringResource(R.string.loading_order_details))
         }
 
         is OrderDetailApiState.Error -> {
-            Text("Error loading order details.")
+            Text(stringResource(R.string.error_loading_order_details))
         }
 
         is OrderDetailApiState.Success -> {
@@ -62,11 +62,11 @@ fun OrderDetailScreen(
                 topBar = {
                     TopAppBar(
                         title = {
-                            Text(text = stringResource(R.string.message_username) + " " + order.buyer)
+                            Text(text = stringResource(R.string.order_detail_from, order.buyer))
                         },
                         navigationIcon = {
                             IconButton(onClick = onBack) {
-                                Icon(Icons.Filled.ArrowBack, "Menu back")
+                                Icon(Icons.Filled.ArrowBack, stringResource(R.string.menu_back))
                             }
                         },
                         modifier = Modifier.fillMaxWidth(),
@@ -80,13 +80,16 @@ fun OrderDetailScreen(
                 ) {
                     item(order.id) {
                         Text(
-                            text = "Order #" + order.id,
+                            text = stringResource(R.string.order_detail_order, order.id),
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 18.sp,
                             modifier = Modifier.padding(8.dp),
                         )
                         Text(
-                            text = "Status: " + order.status.displayName,
+                            text = stringResource(
+                                R.string.order_detail_status,
+                                order.status.displayName
+                            ),
                             fontWeight = FontWeight.Bold,
                             fontSize = 14.sp,
                             modifier = Modifier.padding(start = 8.dp),
@@ -111,7 +114,7 @@ fun OrderDetailScreen(
                                     leadingContent = {
                                         AsyncImage(
                                             model = item.release.thumbnail,
-                                            contentDescription = null,
+                                            contentDescription = stringResource(R.string.item_thumbnail),
                                             contentScale = ContentScale.Crop,
                                             modifier = Modifier
                                                 .width(100.dp)
@@ -133,15 +136,24 @@ fun OrderDetailScreen(
 
                                     supportingText = {
                                         Text(
-                                            text = "Price: €" + item.price.value,
+                                            text = stringResource(
+                                                R.string.order_detail_price,
+                                                item.price.value
+                                            ),
                                             style = MaterialTheme.typography.bodyMedium,
                                         )
                                         Text(
-                                            text = "Media: " + item.mediaCondition,
+                                            text = stringResource(
+                                                R.string.order_detail_media,
+                                                item.mediaCondition
+                                            ),
                                             style = MaterialTheme.typography.bodyMedium,
                                         )
                                         Text(
-                                            text = "Sleeve: " + item.sleeveCondition,
+                                            text = stringResource(
+                                                R.string.order_detail_sleeve,
+                                                item.sleeveCondition
+                                            ),
                                             style = MaterialTheme.typography.bodyMedium,
                                         )
                                     },
@@ -150,7 +162,7 @@ fun OrderDetailScreen(
                         }
 
                         Text(
-                            text = "Total: €" + order.total.value.toString(),
+                            text = stringResource(R.string.order_detail_total, order.total.value),
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 18.sp,
                             modifier = Modifier.padding(8.dp),

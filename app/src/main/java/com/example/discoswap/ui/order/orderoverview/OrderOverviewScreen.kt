@@ -3,6 +3,7 @@ package com.example.discoswap.ui.order.orderoverview
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.discoswap.R
 import com.example.discoswap.model.order.Order
@@ -19,11 +20,11 @@ fun OrderOverviewScreen(
 ) {
     when (orderOverviewViewModel.orderApiState) {
         is OrderApiState.Loading -> {
-            Text("Loading orders...")
+            Text(stringResource(R.string.loading_orders))
         }
 
         is OrderApiState.Error -> {
-            Text("Error loading orders.")
+            Text(stringResource(R.string.error_loading_orders))
         }
 
         is OrderApiState.Success -> {
