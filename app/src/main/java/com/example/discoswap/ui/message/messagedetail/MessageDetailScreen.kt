@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -17,6 +18,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -47,11 +49,11 @@ fun MessageDetailScreen(
                 topBar = {
                     TopAppBar(
                         title = {
-                            Text(text = stringResource(R.string.message_username) + " " + message.name)
+                            Text(text = "${stringResource(R.string.message_username)} ${message.name}")
                         },
                         navigationIcon = {
                             IconButton(onClick = onBack) {
-                                Icon(Icons.Filled.ArrowBack, "Menu back")
+                                Icon(Icons.Filled.ArrowBack, stringResource(R.string.menu_back))
                             }
                         },
                         modifier = Modifier.fillMaxWidth(),
@@ -61,11 +63,12 @@ fun MessageDetailScreen(
                 Column(
                     modifier = Modifier
                         .padding(innerPadding)
+                        .padding(8.dp)
                         .fillMaxWidth(),
                 ) {
-                    Text(text = message.subject, fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
+                    Text(text = message.subject, style = MaterialTheme.typography.titleLarge)
                     if (messageText != null) {
-                        Text(text = messageText, fontWeight = FontWeight.Medium, fontSize = 14.sp)
+                        Text(text = messageText, style = MaterialTheme.typography.bodyMedium)
                     }
                 }
             }
