@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 plugins {
     id("com.android.application")
@@ -6,7 +5,9 @@ plugins {
     kotlin("kapt")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
     id("com.google.devtools.ksp")
+    id("org.jetbrains.dokka") version "1.9.10"
 }
+
 val bundleId = "com.example.discoswap"
 android {
     namespace = bundleId
@@ -104,7 +105,8 @@ dependencies {
     testImplementation("androidx.room:room-testing:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
 
-
+    // Dokka
+    dokkaPlugin("org.jetbrains.dokka:android-documentation-plugin:1.9.10")
     
 }
 // Allow references to generated code
