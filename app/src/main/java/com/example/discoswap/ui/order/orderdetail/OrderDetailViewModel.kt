@@ -42,7 +42,6 @@ class OrderDetailViewModel(
 
     private fun loadOrder(id: String) {
         viewModelScope.launch {
-            orderRepository.refreshDetail(id)
             orderRepository.getOrderDetails(id)
                 .catch {
                     orderDetailApiState = OrderDetailApiState.Error

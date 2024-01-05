@@ -17,8 +17,6 @@ interface OrderRepository {
     suspend fun getOrders(): Flow<List<Order>>
     suspend fun getOrderDetails(orderId: String): Flow<Order>
     suspend fun refreshAll()
-    suspend fun refreshDetail(orderId: String)
-
 }
 
 class CachingOrderRepository(
@@ -49,12 +47,6 @@ class CachingOrderRepository(
             for (order in it.orders) {
                 insertOrderWithItems(order)
             }
-        }
-    }
-
-    override suspend fun refreshDetail(orderId: String) {
-        orderApiService.getOrderDetailsAsFlow(orderId).collect {
-            insertOrderWithItems(it)
         }
     }
 
