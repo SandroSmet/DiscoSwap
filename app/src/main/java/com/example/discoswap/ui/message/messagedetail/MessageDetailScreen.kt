@@ -16,6 +16,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -64,7 +65,8 @@ fun MessageDetailScreen(
                     modifier = Modifier
                         .padding(innerPadding)
                         .padding(8.dp)
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .testTag("messageDetail"),
                 ) {
                     Text(text = message.subject, style = MaterialTheme.typography.titleLarge)
                     if (messageText != null) {

@@ -11,7 +11,10 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.discoswap.DiscoSwapApplication
 import com.example.discoswap.data.message.MessageRepository
+import com.example.discoswap.ui.inventory.InventoryApiState
 import com.example.discoswap.ui.message.MessageApiState
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -30,7 +33,20 @@ class MessageOverviewViewModel(
         private set
 
     init {
+        refreshMessages()
         getRepoMessages()
+    }
+
+    private fun refreshMessages() {
+        viewModelScope.launch {
+            val refreshMessages = async { messageRepository.refresh() }
+            try {
+                awaitAll(refreshMessages)
+            }
+            catch (e: Exception) {
+                messageApiState = MessageApiState.Error
+            }
+        }
     }
 
     private fun getRepoMessages() {

@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.example.discoswap.model.order.Order
 
@@ -30,7 +31,8 @@ fun OrderListItem(
         modifier = Modifier.padding(bottom = 10.dp, start = 10.dp, end = 10.dp),
     ) {
         ListItem(
-            modifier = Modifier.clickable
+            modifier = Modifier.testTag("navigateToOrderDetail")
+                .clickable
                 {
                     onViewDetailClicked(order)
                 },

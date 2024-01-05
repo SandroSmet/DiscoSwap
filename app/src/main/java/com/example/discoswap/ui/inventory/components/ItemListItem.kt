@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -37,10 +38,11 @@ fun ItemListItem(
         modifier = Modifier.padding(bottom = 8.dp, start = 8.dp, end = 8.dp)
     ) {
         ListItem(
-            modifier = Modifier.clickable
-            {
-                onViewDetailClicked(item)
-            },
+            modifier = Modifier.testTag("navigateToInventoryDetail")
+                .clickable
+                {
+                    onViewDetailClicked(item)
+                },
             colors = ListItemDefaults.colors(
                 containerColor = MaterialTheme.colorScheme.surface,
             ),
