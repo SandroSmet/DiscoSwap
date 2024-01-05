@@ -1,14 +1,11 @@
 package com.example.discoswap.ui.order.orderoverview
 
-import com.example.discoswap.fake.FakeInventoryRepository
 import com.example.discoswap.fake.FakeOrderRepository
 import com.example.discoswap.helpers.TestDispatcherRule
-import com.example.discoswap.ui.inventory.inventoryoverview.InventoryOverviewViewModel
 import com.example.discoswap.ui.order.OrderApiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.Assert.assertEquals

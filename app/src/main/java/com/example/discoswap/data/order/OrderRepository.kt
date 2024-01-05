@@ -7,7 +7,6 @@ import com.example.discoswap.model.order.Order
 import com.example.discoswap.network.order.ApiOrderDetail
 import com.example.discoswap.network.order.OrderApiService
 import com.example.discoswap.network.order.asDomainObject
-import com.example.discoswap.network.order.getOrderDetailsAsFlow
 import com.example.discoswap.network.order.getOrdersAsFlow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
