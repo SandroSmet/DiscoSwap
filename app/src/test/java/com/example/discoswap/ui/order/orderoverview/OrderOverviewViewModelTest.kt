@@ -11,6 +11,7 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -36,21 +37,26 @@ class OrderOverviewViewModelTest {
 
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `InventoryApiState updates to Success after loading`() = runTest {
-        Dispatchers.setMain(StandardTestDispatcher())
-        initializeViewModel()
-
-        advanceUntilIdle()
-
         assert(viewModel.orderApiState is OrderApiState.Success)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `ViewModel is initialized with the correct initial state`() = runTest {
+        Dispatchers.setMain(StandardTestDispatcher())
+        initializeViewModel()
+
         val initialState = viewModel.uiState.value
 
-        assert(initialState.currentOrderList.isEmpty())
+        assertEquals(0, initialState.currentOrderList.size)
+    }
+
+    @Test
+    fun `ViewModel uiState is updated with the correct state after loading`() = runTest {
+        val updatedState = viewModel.uiState.value
+
+        assertEquals(1, updatedState.currentOrderList.size)
     }
 }
