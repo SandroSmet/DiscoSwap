@@ -1,6 +1,7 @@
 package com.example.discoswap.fake
 
 import com.example.discoswap.network.inventory.ApiInventoryItem
+import com.example.discoswap.network.message.ApiMessageItem
 import com.example.discoswap.network.message.ApiUser
 import com.example.discoswap.network.order.ApiOrderDetail
 import com.example.discoswap.network.order.ApiOrderItemDetail
@@ -44,6 +45,20 @@ object FakeDataSource {
         ApiValue(5.00, "EUR"),
         listOf(orderitem1),
     )
+
+    private val user1 = ApiUser("username")
+
+    private val message1 = ApiMessageItem(
+        "12345",
+        "subject",
+        "type",
+        true,
+        user1,
+        "body",
+        "12345"
+    )
+
+    val messages = listOf(message1)
 
     val inventory = listOf(item1)
     val orders = listOf(order1)
