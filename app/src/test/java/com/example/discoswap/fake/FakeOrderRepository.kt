@@ -22,4 +22,8 @@ class FakeOrderRepository : OrderRepository {
         // Not needed
     }
 
+    override suspend fun refreshDetail(orderId: String) {
+        // Not needed
+    }
+
 }

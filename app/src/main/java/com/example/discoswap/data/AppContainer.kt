@@ -40,11 +40,6 @@ interface AppContainer {
     val inventoryRepository: InventoryRepository
 }
 
-/**
- * Default implementation of [AppContainer].
- *
- * @property applicationContext the application context
- */
 @OptIn(ExperimentalSerializationApi::class)
 private val json = Json {
     ignoreUnknownKeys = true

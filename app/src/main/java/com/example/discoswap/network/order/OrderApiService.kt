@@ -1,5 +1,6 @@
 package com.example.discoswap.network.order
 
+import com.example.discoswap.network.message.MessageApiService
 import kotlinx.coroutines.flow.flow
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -27,18 +28,18 @@ interface OrderApiService {
 }
 
 /**
- * Extension function to convert the result of [getOrders] to a flow.
+ * Extension function to convert the result of [OrderApiService.getOrders] to a flow.
  *
  * @receiver the [OrderApiService] instance
- * @return a flow emitting [ApiOrders] representing the list of orders
+ * @return a Flow emitting the result of [OrderApiService.getOrders]
  */
 fun OrderApiService.getOrdersAsFlow() = flow { emit(getOrders()) }
 
 /**
- * Extension function to convert the result of [getOrderDetails] to a flow.
+ * Extension function to convert the result of [OrderApiService.getOrderDetails] to a flow.
  *
  * @receiver the [OrderApiService] instance
  * @param id the unique identifier of the order
- * @return a flow emitting [ApiOrderDetail] representing detailed information about the order
+ * @return a Flow emitting the result of [OrderApiService.getOrderDetails] with the specified [id]
  */
 fun OrderApiService.getOrderDetailsAsFlow(id: String) = flow { emit(getOrderDetails(id)) }

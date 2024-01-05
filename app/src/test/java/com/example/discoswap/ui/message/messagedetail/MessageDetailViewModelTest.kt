@@ -1,12 +1,9 @@
 package com.example.discoswap.ui.message.messagedetail
 
 import androidx.lifecycle.SavedStateHandle
-import com.example.discoswap.fake.FakeInventoryRepository
 import com.example.discoswap.fake.FakeMessageRepository
 import com.example.discoswap.helpers.TestDispatcherRule
 import com.example.discoswap.ui.DiscoSwapDestinationsArgs
-import com.example.discoswap.ui.inventory.InventoryItemDetailApiState
-import com.example.discoswap.ui.inventory.itemdetail.ItemDetailViewModel
 import com.example.discoswap.ui.message.MessageDetailApiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

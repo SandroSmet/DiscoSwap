@@ -28,18 +28,18 @@ interface MessageApiService {
 }
 
 /**
- * Extension function to convert the [getMessages] suspend function to a flow.
+ * Extension function to convert the [MessageApiService.getMessages] suspend function to a flow.
  *
  * @receiver the [MessageApiService] instance
- * @return a Flow emitting the result of [getMessages]
+ * @return a Flow emitting the result of [MessageApiService.getMessages]
  */
 fun MessageApiService.getMessagesAsFlow() = flow { emit(getMessages()) }
 
 /**
- * Extension function to convert the [getMessageDetails] suspend function to a flow.
+ * Extension function to convert the [MessageApiService.getMessageDetails] suspend function to a flow.
  *
  * @receiver the [MessageApiService] instance
  * @param id the unique identifier of the message
- * @return a Flow emitting the result of [getMessageDetails] with the specified [id]
+ * @return a Flow emitting the result of [MessageApiService.getMessageDetails] with the specified [id]
  */
 fun MessageApiService.getMessageDetailsAsFlow(id: String) = flow { emit(getMessageDetails(id)) }

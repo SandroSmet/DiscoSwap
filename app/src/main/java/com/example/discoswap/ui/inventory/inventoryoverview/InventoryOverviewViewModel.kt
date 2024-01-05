@@ -11,7 +11,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.discoswap.DiscoSwapApplication
 import com.example.discoswap.data.inventory.InventoryRepository
 import com.example.discoswap.ui.inventory.InventoryApiState
-import com.example.discoswap.ui.order.OrderApiState
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableStateFlow

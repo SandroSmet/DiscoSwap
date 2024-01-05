@@ -21,15 +21,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.discoswap.R
 import com.example.discoswap.ui.inventory.InventoryItemDetailApiState
 import com.example.discoswap.ui.inventory.components.AllItemInfo
-import com.example.discoswap.ui.inventory.components.ItemInfo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

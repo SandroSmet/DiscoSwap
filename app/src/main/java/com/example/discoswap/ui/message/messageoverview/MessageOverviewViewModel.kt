@@ -11,7 +11,6 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.discoswap.DiscoSwapApplication
 import com.example.discoswap.data.message.MessageRepository
-import com.example.discoswap.ui.inventory.InventoryApiState
 import com.example.discoswap.ui.message.MessageApiState
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll

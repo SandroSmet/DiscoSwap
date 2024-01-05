@@ -17,9 +17,9 @@ interface InventoryApiService {
 }
 
 /**
- * Extension function to convert the [getInventory] suspend function to a flow.
+ * Extension function to convert the [InventoryApiService.getInventory] suspend function to a flow.
  *
  * @receiver the [InventoryApiService] instance
- * @return a Flow emitting the result of [getInventory]
+ * @return a Flow emitting the result of [InventoryApiService.getInventory]
  */
 fun InventoryApiService.getInventoryAsFlow() = flow { emit(getInventory()) }

@@ -6,6 +6,7 @@ import com.example.discoswap.model.order.Price
 import com.example.discoswap.model.inventory.Release
 import com.example.discoswap.model.order.Status
 import com.example.discoswap.network.message.ApiUser
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
@@ -31,22 +32,27 @@ data class ApiOrderDetail(
  *
  * @property id the unique identifier of the order item
  * @property price the price of the order item
- * @property media_condition the media condition of the order item
- * @property sleeve_condition the sleeve condition of the order item
- * @property condition_comments comments related to the condition of the order item
- * @property item_location the location of the order item
- * @property private_comments private comments related to the order item
+ * @property mediaCondition the media condition of the order item
+ * @property sleeveCondition the sleeve condition of the order item
+ * @property conditionComments comments related to the condition of the order item
+ * @property itemLocation the location of the order item
+ * @property privateComments private comments related to the order item
  * @property release the release information associated with the order item
  */
 @Serializable
 data class ApiOrderItemDetail(
     val id: Long,
     val price: ApiValue,
-    val media_condition: String,
-    val sleeve_condition: String,
-    val condition_comments: String,
-    val item_location: String,
-    val private_comments: String,
+    @SerialName("media_condition")
+    val mediaCondition: String,
+    @SerialName("sleeve_condition")
+    val sleeveCondition: String,
+    @SerialName("condition_comments")
+    val conditionComments: String,
+    @SerialName("item_location")
+    val itemLocation: String,
+    @SerialName("private_comments")
+    val privateComments: String,
     val release: ApiRelease,
 )
 
@@ -138,43 +144,15 @@ fun ApiOrderDetail.asDomainObject() =
             Item(
                 id = it.id,
                 price = it.price.asDomainObject(),
-                mediaCondition = it.media_condition,
-                sleeveCondition = it.sleeve_condition,
-                conditionComments = it.condition_comments,
-                itemLocation = it.item_location,
-                privateComments = it.private_comments,
+                mediaCondition = it.mediaCondition,
+                sleeveCondition = it.sleeveCondition,
+                conditionComments = it.conditionComments,
+                itemLocation = it.itemLocation,
+                privateComments = it.privateComments,
                 release = it.release.asDomainObject(),
             )
         },
     )
-
-/**
- * Extension function to convert an [ApiOrderInfo] to a [Order] in the domain layer.
- *
- * @receiver the [ApiOrderInfo] to be converted
- * @return the corresponding [Order] in the domain layer
- */
-fun ApiOrderInfo.asDomainOrder() = Order(
-    id = this.id,
-    buyer = this.buyer.username,
-    total = this.total.asDomainObject(),
-    status = when (this.status) {
-        "New Order" -> Status.NewOrder
-        "Buyer Contacted" -> Status.BuyerContacted
-        "Invoice Sent" -> Status.InvoiceSent
-        "Payment Pending" -> Status.PaymentPending
-        "Payment Received" -> Status.PaymentReceived
-        "In Progress" -> Status.InProgress
-        "Shipped" -> Status.Shipped
-        "Refund Sent" -> Status.RefundSent
-        "Cancelled (Non-Paying Buyer)" -> Status.CancelledNonPayingBuyer
-        "Cancelled (Item Unavailable)" -> Status.CancelledItemUnavailable
-        "Cancelled (Per Buyer's Request)" -> Status.CancelledBuyerRequest
-        "Merged" -> Status.Merged
-        else -> Status.NewOrder
-    },
-    items = listOf(),
-)
 
 /**
  * Extension function to convert an [ApiValue] to a [Price] in the domain layer.
@@ -215,11 +193,11 @@ fun ApiOrderItemDetail.asDomainObject(orderId: String) =
     Item(
         id = this.id,
         price = this.price.asDomainObject(),
-        mediaCondition = this.media_condition,
-        sleeveCondition = this.sleeve_condition,
-        conditionComments = this.condition_comments,
-        itemLocation = this.item_location,
-        privateComments = this.private_comments,
+        mediaCondition = this.mediaCondition,
+        sleeveCondition = this.sleeveCondition,
+        conditionComments = this.conditionComments,
+        itemLocation = this.itemLocation,
+        privateComments = this.privateComments,
         release = this.release.asDomainObject(),
         orderId = orderId,
     )

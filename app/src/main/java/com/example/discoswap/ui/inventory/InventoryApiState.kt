@@ -1,7 +1,5 @@
 package com.example.discoswap.ui.inventory
 
-import com.example.discoswap.model.inventory.Item
-
 sealed interface InventoryApiState {
     object Error : InventoryApiState
     object Loading : InventoryApiState

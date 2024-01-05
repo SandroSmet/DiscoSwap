@@ -1,6 +1,5 @@
 package com.example.discoswap.ui.message
 
-import com.example.discoswap.model.message.Message
 
 sealed interface MessageApiState {
     object Error : MessageApiState

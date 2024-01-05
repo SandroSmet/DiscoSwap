@@ -95,15 +95,15 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
     //room
-    val room_version = "2.5.0"
-    implementation("androidx.room:room-runtime:$room_version")
+    val roomVersion = "2.5.0"
+    implementation("androidx.room:room-runtime:$roomVersion")
     // optional - Kotlin Extensions and Coroutines support for Room
-    implementation("androidx.room:room-ktx:$room_version")
+    implementation("androidx.room:room-ktx:$roomVersion")
     // To use Kotlin Symbol Processing (KSP)
-    ksp("androidx.room:room-compiler:$room_version")
+    ksp("androidx.room:room-compiler:$roomVersion")
     // optional - Test helpers
-    testImplementation("androidx.room:room-testing:$room_version")
-    annotationProcessor("androidx.room:room-compiler:$room_version")
+    testImplementation("androidx.room:room-testing:$roomVersion")
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
 
     // Dokka
     dokkaPlugin("org.jetbrains.dokka:android-documentation-plugin:1.9.10")

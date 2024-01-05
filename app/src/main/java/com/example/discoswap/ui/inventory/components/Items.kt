@@ -7,8 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.discoswap.model.inventory.Item
-import com.example.discoswap.model.message.Message
-import com.example.discoswap.ui.message.components.MessageListItem
 
 @Composable
 fun Items(

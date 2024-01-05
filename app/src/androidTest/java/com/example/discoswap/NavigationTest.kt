@@ -3,18 +3,15 @@ package com.example.discoswap
 import android.content.Context
 import androidx.annotation.StringRes
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
-import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.discoswap.ui.DiscoSwapNavGraph
-import okhttp3.internal.wait
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -34,21 +31,21 @@ class NavigationTest {
     }
 
     @Test
-    fun `Messages tab is displayed at startup`() {
+    fun `Messages tab icon is displayed at startup`() {
         composeTestRule
             .onNodeWithText(getResourceString(R.string.title_messages))
             .assertIsDisplayed()
     }
 
     @Test
-    fun `Orders tab is displayed at startup`() {
+    fun `Orders tab icon is displayed at startup`() {
         composeTestRule
             .onNodeWithText(getResourceString(R.string.title_orders))
             .assertIsDisplayed()
     }
 
     @Test
-    fun `Inventory tab is displayed at startup`() {
+    fun `Inventory tab icon is displayed at startup`() {
         composeTestRule
             .onNodeWithText(getResourceString(R.string.title_inventory))
             .assertIsDisplayed()
@@ -60,7 +57,7 @@ class NavigationTest {
             .onNodeWithText(getResourceString(R.string.title_messages))
             .performClick()
 
-        composeTestRule.waitUntil(Companion.WAIT_UNTIL_TIMEOUT) {
+        composeTestRule.waitUntil(WAIT_UNTIL_TIMEOUT) {
             composeTestRule
                 .onAllNodesWithTag("navigateToMessageDetail")
                 .fetchSemanticsNodes().isNotEmpty()
@@ -77,7 +74,7 @@ class NavigationTest {
             .onNodeWithText(getResourceString(R.string.title_orders))
             .performClick()
 
-        composeTestRule.waitUntil(Companion.WAIT_UNTIL_TIMEOUT) {
+        composeTestRule.waitUntil(WAIT_UNTIL_TIMEOUT) {
             composeTestRule
                 .onAllNodesWithTag("navigateToOrderDetail")
                 .fetchSemanticsNodes().isNotEmpty()
@@ -94,7 +91,7 @@ class NavigationTest {
             .onNodeWithText(getResourceString(R.string.title_inventory))
             .performClick()
 
-        composeTestRule.waitUntil(Companion.WAIT_UNTIL_TIMEOUT) {
+        composeTestRule.waitUntil(WAIT_UNTIL_TIMEOUT) {
             composeTestRule
                 .onAllNodesWithTag("navigateToInventoryDetail")
                 .fetchSemanticsNodes().isNotEmpty()
@@ -111,7 +108,7 @@ class NavigationTest {
             .onNodeWithText(getResourceString(R.string.title_messages))
             .performClick()
 
-        composeTestRule.waitUntil(Companion.WAIT_UNTIL_TIMEOUT) {
+        composeTestRule.waitUntil(WAIT_UNTIL_TIMEOUT) {
             composeTestRule
                 .onAllNodesWithTag("navigateToMessageDetail")
                 .fetchSemanticsNodes().isNotEmpty()
@@ -121,7 +118,7 @@ class NavigationTest {
             .onAllNodesWithTag("navigateToMessageDetail")[0]
             .performClick()
 
-        composeTestRule.waitUntil(Companion.WAIT_UNTIL_TIMEOUT) {
+        composeTestRule.waitUntil(WAIT_UNTIL_TIMEOUT) {
             composeTestRule
                 .onAllNodesWithTag("messageDetail")
                 .fetchSemanticsNodes().isNotEmpty()
